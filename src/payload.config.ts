@@ -8,6 +8,7 @@ import sharp from "sharp";
 import { collections } from "./collections/";
 import { USERS } from "./collections/constants";
 import { env } from "./env";
+import { globals } from "./globals";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -20,11 +21,12 @@ export default buildConfig({
 		},
 		components: {
 			graphics: {
-				Logo: "/admin/components/graphics/Logo",
+				Logo: "/components/logos/spiik-logo",
 			},
 		},
 	},
 	collections: collections,
+	globals: globals,
 	editor: lexicalEditor(),
 	secret: env.PAYLOAD_SECRET,
 	typescript: {

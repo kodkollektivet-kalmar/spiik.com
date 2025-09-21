@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    'board-members': BoardMember;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,15 +78,26 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    'board-members': BoardMembersSelect<false> | BoardMembersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    navigation: Navigation;
+    'site-settings': SiteSetting;
+    'board-page': BoardPage;
+    'introduction-page': IntroductionPage;
+  };
+  globalsSelect: {
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'board-page': BoardPageSelect<false> | BoardPageSelect<true>;
+    'introduction-page': IntroductionPageSelect<false> | IntroductionPageSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -118,7 +130,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -142,7 +154,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -158,23 +170,60 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "board-members".
+ */
+export interface BoardMember {
+  id: number;
+  name: string;
+  email?: string | null;
+  position:
+    | 'Ordförande'
+    | 'Vice ordförande'
+    | 'Kassör'
+    | 'Sekreterare'
+    | 'Eventansvarig'
+    | 'PR-ansvarig'
+    | 'Näringslivsansvarig'
+    | 'Studierådsansvarig'
+    | 'Webbansvarig'
+    | 'Ledamot';
+  studies?: string | null;
+  message?: string | null;
+  quote?: string | null;
+  merit?: string | null;
+  favoriteGame?: string | null;
+  image: number | Media;
+  /**
+   * Used for manual ordering on the website
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'board-members';
+        value: number | BoardMember;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -184,10 +233,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -207,7 +256,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -255,6 +304,25 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "board-members_select".
+ */
+export interface BoardMembersSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  position?: T;
+  studies?: T;
+  message?: T;
+  quote?: T;
+  merit?: T;
+  favoriteGame?: T;
+  image?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents_select".
  */
 export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
@@ -284,6 +352,186 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface Navigation {
+  id: number;
+  main?:
+    | {
+        label: string;
+        href: string;
+        external?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  footer?:
+    | {
+        label: string;
+        href: string;
+        external?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  siteName: string;
+  logo?: (number | null) | Media;
+  contactEmail?: string | null;
+  socialLinks?:
+    | {
+        platform: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Styrelsen page content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "board-page".
+ */
+export interface BoardPage {
+  id: number;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  heroImage?: (number | null) | Media;
+  sections?:
+    | {
+        title?: string | null;
+        text?: string | null;
+        image?: (number | null) | Media;
+        ctaLabel?: string | null;
+        ctaUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Introduktion page content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "introduction-page".
+ */
+export interface IntroductionPage {
+  id: number;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  heroImage?: (number | null) | Media;
+  sections?:
+    | {
+        title?: string | null;
+        text?: string | null;
+        image?: (number | null) | Media;
+        ctaLabel?: string | null;
+        ctaUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  main?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        external?: T;
+        id?: T;
+      };
+  footer?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        external?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  siteName?: T;
+  logo?: T;
+  contactEmail?: T;
+  socialLinks?:
+    | T
+    | {
+        platform?: T;
+        url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "board-page_select".
+ */
+export interface BoardPageSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroSubtitle?: T;
+  heroImage?: T;
+  sections?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        ctaLabel?: T;
+        ctaUrl?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "introduction-page_select".
+ */
+export interface IntroductionPageSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroSubtitle?: T;
+  heroImage?: T;
+  sections?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        ctaLabel?: T;
+        ctaUrl?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
