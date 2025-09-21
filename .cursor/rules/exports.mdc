@@ -16,6 +16,7 @@ export { MyFunction, MyComponent, MyType };
 ```
 - **Exceptions**:  
   - Next.js page and route files inside `src/app/**`  
+  - Payload CMS collection files `src/collections/**`
   - Any file that explicitly requires a default export, like configuration files etc
   These may use:
 ```ts
