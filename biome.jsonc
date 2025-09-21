@@ -1,0 +1,38 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+	"files": {
+		"includes": [
+			"src/**/*.ts",
+			"src/**/*.tsx",
+			"src/**/*.js",
+			"src/**/*.jsx",
+			"src/**/*.css",
+			"!src/app/(frontend)/styles.css",
+			"!src/components/ui/**/*",
+			"!src/app/(payload)/**/*",
+			"!**/+.test.js",
+			"!**/+.test.ts",
+			"!src/payload-types.ts",
+			// "!src/payload.config.ts",
+			"!node_modules/**/*"
+		]
+	},
+	"javascript": {
+		"formatter": {
+			"quoteStyle": "double",
+			"jsxQuoteStyle": "double"
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["src/**/*.tsx", "src/**/*.ts"],
+			"linter": {
+				"rules": {
+					"style": {
+						"useFilenamingConvention": "off"
+					}
+				}
+			}
+		}
+	]
+}
