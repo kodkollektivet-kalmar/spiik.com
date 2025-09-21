@@ -1,0 +1,32 @@
+---
+alwaysApply: true
+---
+
+# Folder Structure Conventions
+
+## General Rules
+Inside the `src` folder, the project must follow this structure:
+
+```
+src/
+    app/          # Routes, pages, and Next.js app directory files
+    components/   # Reusable UI components
+    hooks/        # Reusable hooks
+    lib/          # Utility functions etc
+    types/        # Shared type definitions (type aliases preferred)
+    constants.ts  # Shared constants
+```
+
+## Examples
+
+**Correct**
+```
+src/components/user-card.tsx
+src/hooks/use-user-data.ts
+src/hooks/use-fetch-data.ts
+src/constants.ts
+```
+
+## File Matching
+- Apply this folder structure to all new files and directories inside `src/`.
+- Enforce kebab-case for all files and folder names.

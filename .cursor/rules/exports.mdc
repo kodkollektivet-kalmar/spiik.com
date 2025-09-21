@@ -1,0 +1,66 @@
+---
+alwaysApply: true
+---
+
+# Export Conventions
+
+You must follow these rules for all files in this project.
+
+## General Rules
+- Do **not** use default exports by default.
+- Always export functions, components, and types using **named exports**.
+- All named exports must be placed at the **very bottom** of the file.
+- Use the syntax:
+```ts
+export { MyFunction, MyComponent, MyType };
+```
+- **Exceptions**:  
+  - Next.js page and route files inside `src/app/**`  
+  - Any file that explicitly requires a default export, like configuration files etc
+  These may use:
+```ts
+export default function PageName() { ... }
+```
+- If a file has both internal helpers and main exports, helpers should remain above, and the final `export { ... }` block should be the last lines of the file.
+
+## Automation
+- When writing or refactoring code, always move named exports to the very bottom of the file.
+- When encountering `export default` in non-exempt files, replace it with a named export and update imports accordingly.
+- In exempt files (`src/app/**`, special cases), retain the default export and place it where appropriate.
+
+## Examples
+**Correct**
+```ts
+function MyComponent() {
+  return <div>Hello</div>;
+}
+
+function helper() {}
+
+export { MyComponent, helper };
+```
+**Correct for a Next.js page**
+```ts
+export default function HomePage() {
+  return <main>Welcome</main>;
+}
+```
+**Incorrect**
+```ts
+export default function MyComponent() {
+  return <div>Hello</div>;
+}
+```
+**Incorrect**
+```ts
+function MyComponent() {
+  return <div>Hello</div>;
+}
+
+export { MyComponent }; // Not at bottom if more code follows
+```
+
+## File Matching
+- Apply these rules to all `*.ts`, `*.tsx`, `*.js`, and `*.jsx` files except:
+  - `src/app/**`
+  - `src/components/ui`

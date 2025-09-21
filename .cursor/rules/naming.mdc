@@ -1,0 +1,43 @@
+---
+alwaysApply: true
+---
+
+# File Naming Conventions
+
+## General Rules
+- **All** file and folder names must use **kebab-case**
+  - Examples: `use-fetch-data.ts`, `format-date.ts`, `my-component.tsx`.
+- Do not mix components and non-component code in the same file.
+
+## Automation
+- When creating new files, automatically name them according to these conventions based on their purpose:
+  - React components → `kebab-case.ts`.
+  - Hooks, utils, and other non-component code → `kebab-case.ts`.
+- When refactoring, rename files that do not match the convention.
+
+## Examples
+
+**Correct**
+```
+src/components/user-profile.tsx
+src/components/navbar.tsx
+src/hooks/use-fetch-data.ts
+src/utils/format-date.ts
+```
+
+**Incorrect**
+```
+src/components/userProfile.tsx        // should be user-profile.tsx
+src/components/MyComponent.tsx        // should be my-component.tsx
+src/hooks/UseFetchData.ts             // should be use-fetch-data.ts
+src/utils/FormatDate.ts               // should be format-date.ts
+```
+
+## File Matching
+- Apply kebab-case rule to:
+  - `src/components/**`
+  - `src/hooks/**`
+  - `src/utils/**`
+  - `src/lib/**`
+  - `src/services/**`
+  - `src/constants/**`

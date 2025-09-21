@@ -1,0 +1,56 @@
+---
+alwaysApply: true
+---
+
+# Type vs Interface Conventions
+
+## General Rules
+- Always prefer `type` aliases over `interface` for defining object shapes, function signatures, and other structures.
+- Only use `interface` if you explicitly need declaration merging or extending multiple interfaces.
+- When replacing `interface` with `type`, use the same name where possible for clarity.
+- For React component props, always use:
+```ts
+type MyComponentProps = { ... }
+```
+and **never**:
+```ts
+interface MyComponentProps { ... }
+```
+
+## Automation
+- When encountering `interface` definitions that can be replaced by `type`, automatically convert them to `type`.
+- For union types, mapped types, and other advanced cases, default to `type`.
+- Keep naming consistent: append `Props`, `Options`, `Config`, etc., when defining types for components or utilities.
+
+## Examples
+**Correct**
+```ts
+type User = {
+  id: string;
+  name: string;
+};
+```
+**Correct for React**
+```ts
+type ButtonProps = {
+  label: string;
+  onClick: () => void;
+};
+```
+**Incorrect**
+```ts
+interface User {
+  id: string;
+  name: string;
+}
+```
+**Incorrect for React**
+```ts
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+}
+```
+
+## File Matching
+- Apply these rules to all `*.ts` and `*.tsx` files.
