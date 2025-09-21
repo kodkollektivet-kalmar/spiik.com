@@ -1,6 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { BoardMembers } from "./board-members";
 import { Media } from "./media";
+import { Statutes } from "./statutes";
 import { Users } from "./users";
 
 export const collections: CollectionConfig[] = [
@@ -11,4 +12,5 @@ export const collections: CollectionConfig[] = [
 
 	// Content group
 	BoardMembers,
+	Statutes,
 ];

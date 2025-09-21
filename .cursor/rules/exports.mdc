@@ -1,7 +1,6 @@
 ---
 alwaysApply: true
 ---
-
 # Export Conventions
 
 You must follow these rules for all files in this project.
@@ -10,6 +9,7 @@ You must follow these rules for all files in this project.
 - Do **not** use default exports by default.
 - Always export functions, components, and types using **named exports**.
 - All named exports must be placed at the **very bottom** of the file.
+- In `src/collections/**` and `src/globals/**`, named exports MAY be declared inline at definition (e.g., `export const X = ...`). Do not move these to the bottom. Default exports are still allowed where Payload/Next.js require them.
 - Use the syntax:
 ```ts
 export { MyFunction, MyComponent, MyType };
