@@ -1,58 +1,172 @@
-import { fileURLToPath } from "node:url";
-import { headers as getHeaders } from "next/headers.js";
+import { ChevronDown, MoveDown } from "lucide-react";
 import Image from "next/image";
-import { getPayload } from "payload";
-
-import config from "@/payload.config";
 import "./styles.css";
+import type { Payload } from "payload";
+import { getPayload } from "payload";
+import { PROGRAMS } from "@/collections/constants";
+import config from "@/payload.config";
 
 export default async function HomePage() {
-	const headers = await getHeaders();
-	const payloadConfig = await config;
-	const payload = await getPayload({ config: payloadConfig });
-	const { user } = await payload.auth({ headers });
-
-	const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`;
+	const payload: Payload = await getPayload({ config: await config });
+	const programsRes = await payload.find({
+		collection: PROGRAMS,
+		sort: "order",
+	});
+	const programs = (
+		programsRes as unknown as {
+			docs: Array<{
+				id: number;
+				code: string;
+				name: string;
+				degree?: string | null;
+				description?: string | null;
+				url: string;
+				color?: string | null;
+			}>;
+		}
+	).docs;
 
 	return (
-		<div className="home">
-			<div className="content">
-				<picture>
-					<source srcSet="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg" />
-					<Image
-						alt="Payload Logo"
-						height={65}
-						src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-favicon.svg"
-						width={65}
-					/>
-				</picture>
-				{!user && <h1>Welcome to your new project.</h1>}
-				{user && <h1>Welcome back, {user.email}</h1>}
-				<div className="links">
-					<a
-						className="admin"
-						href={payloadConfig.routes.admin}
-						rel="noopener noreferrer"
-						target="_blank"
-					>
-						Go to admin panel
-					</a>
-					<a
-						className="docs"
-						href="https://payloadcms.com/docs"
-						rel="noopener noreferrer"
-						target="_blank"
-					>
-						Documentation
-					</a>
+		<main className="relative">
+			<div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[160vh] hero-gradient mask-bottom-fade" />
+			{/* Hero */}
+			<section className="relative mx-auto flex min-h-screen w-full flex-col items-center justify-center px-5 py-20">
+				{/* Logo */}
+				<Image
+					src="/spiik-logo.png"
+					alt="SPIIK"
+					width={300}
+					height={300}
+					className="w-auto px-16"
+					priority
+				/>
+
+				{/* Headline */}
+				<h1 className="my-16 text-center text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+					Studentföreningen
+					<br />
+					<span className="text-[#fff275]">Prima Ingenjörer</span>
+					<br />i Kalmar
+				</h1>
+
+				{/* Skrolla hint (bottom-right) */}
+				<div className="pointer-events-none absolute bottom-7 right-4 flex items-end gap-1 text-white/90 sm:right-3">
+					<div className="flex flex-col items-center justify-end">
+						<ChevronDown className="h-4 w-4" aria-hidden />
+						<ChevronDown className="h-4 w-4 -mt-1" aria-hidden />
+					</div>
+					<span className="text-sm font-semibold tracking-wide [writing-mode:vertical-rl]">
+						Skrolla
+					</span>
 				</div>
-			</div>
-			<div className="footer">
-				<p>Update this page by editing</p>
-				<a className="codeLink" href={fileURL}>
-					<code>app/(frontend)/page.tsx</code>
-				</a>
-			</div>
-		</div>
+			</section>
+
+			{/* Content sections - follow mock closely */}
+			<section>
+				<div className="mx-auto w-full max-w-screen-sm px-5 py-20 sm:max-w-screen-md">
+					{/* Välkommen
+					<div className="mb-16">
+						<h2 className="text-3xl font-bold leading-snug text-white">
+							Välkommen till <span className="text-[#FDE300]">SPIIK</span>
+						</h2>
+						<p className="mt-2 text-lg text-balance leading-relaxed text-white/80">
+							Här hittar du info om oss, vår styrelse och vad vi arbetar med
+						</p>
+					</div> */}
+
+					{/* Vilka är vi? */}
+					<div className="mb-10 flex flex-col items-center">
+						<h3 className="mb-3 text-4xl font-semibold text-white">
+							Vilka är vi?
+						</h3>
+						<Image
+							src="/kalle.png"
+							alt="SPIIK"
+							width={1000}
+							height={1000}
+							className="rounded-3xl object-cover h-[70vh]"
+						/>
+						<p className="mt-3 text-center text-foreground/80">
+							SPIIK är en utbildningsförening under Linnéuniversitetets
+							studentkår, Linnékåren.
+						</p>
+						<div className="mt-10 flex flex-col items-center text-zinc-500">
+							<MoveDown className="-mt-1 h-10 w-10" />
+						</div>
+					</div>
+
+					{/* Vart finns vi? */}
+					<div className="mb-10 flex flex-col items-center">
+						<h3 className="mb-3 text-4xl font-semibold text-spiik-red">
+							Vart finns vi?
+						</h3>
+						<div className="h-[70vh] w-full overflow-hidden rounded-3xl ring-1 ring-black/5 shadow-xl">
+							<iframe
+								className="h-full w-full"
+								src="https://www.google.com/maps/d/embed?mid=1_1o4t-ET9iWjq4iadIJxW6qPcVb1xoc&ehbc=2E312F"
+								loading="lazy"
+								style={{ border: 0 }}
+								allowFullScreen
+								title="Våning 4 i hus Magna"
+							/>
+						</div>
+						<p className="mt-2 text-center text-sm font-semibold">
+							Våning 4 i hus Magna
+						</p>
+						<div className="mt-10 flex flex-col items-center text-zinc-500">
+							<MoveDown className="-mt-1 h-10 w-10" />
+						</div>
+					</div>
+
+					{/* Utbildningar prompt */}
+					<div className="mb-6 flex flex-col items-center">
+						<h3 className="text-4xl mb-3 font-semibold text-spiik-yellow">
+							Utbildningar!
+						</h3>
+						<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+							{programs.map((p) => (
+								<div
+									key={p.id}
+									className="rounded-xl bg-white p-5 shadow-xl ring-1 ring-black/5"
+								>
+									<div className="flex items-center gap-3">
+										<div
+											className="flex h-10 w-10 items-center justify-center rounded-md text-sm font-extrabold"
+											style={{
+												backgroundColor: p.color || "#e7f0ff",
+												color: "#111",
+											}}
+										>
+											{p.code}
+										</div>
+										<div>
+											<h4 className="text-base font-semibold leading-tight">
+												{p.name}
+											</h4>
+											{p.degree && (
+												<p className="text-xs text-foreground/60">{p.degree}</p>
+											)}
+										</div>
+									</div>
+									{p.description && (
+										<p className="mt-3 text-sm leading-6 text-foreground/80">
+											{p.description}
+										</p>
+									)}
+									<a
+										href={p.url}
+										target="_blank"
+										rel="noreferrer"
+										className="mt-3 inline-flex text-sm font-semibold text-[#c1121f] hover:underline"
+									>
+										Läs mer →
+									</a>
+								</div>
+							))}
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
 	);
 }

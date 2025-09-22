@@ -1,6 +1,6 @@
 import type { GlobalConfig } from "payload";
 import { MEDIA } from "../collections/constants";
-import { BOARD_PAGE, INTRODUCTION_PAGE } from "./constants";
+import { BOARD_PAGE, EDUCATION_PAGE, INTRODUCTION_PAGE } from "./constants";
 
 function pageGlobal(slug: string, label: string): GlobalConfig {
 	return {
@@ -28,7 +28,8 @@ function pageGlobal(slug: string, label: string): GlobalConfig {
 
 const BoardPage = pageGlobal(BOARD_PAGE, "Styrelsen");
 const IntroductionPage = pageGlobal(INTRODUCTION_PAGE, "Introduktion");
+const EducationPage = pageGlobal(EDUCATION_PAGE, "Utbildning");
 
-const pageGlobals = [BoardPage, IntroductionPage];
+const pageGlobals = [BoardPage, IntroductionPage, EducationPage];
 
 export { pageGlobals };

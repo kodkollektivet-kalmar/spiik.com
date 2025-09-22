@@ -70,6 +70,8 @@ export interface Config {
     users: User;
     media: Media;
     'board-members': BoardMember;
+    statutes: Statute;
+    programs: Program;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,6 +81,8 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'board-members': BoardMembersSelect<false> | BoardMembersSelect<true>;
+    statutes: StatutesSelect<false> | StatutesSelect<true>;
+    programs: ProgramsSelect<false> | ProgramsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -91,12 +95,14 @@ export interface Config {
     'site-settings': SiteSetting;
     'board-page': BoardPage;
     'introduction-page': IntroductionPage;
+    'education-page': EducationPage;
   };
   globalsSelect: {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'board-page': BoardPageSelect<false> | BoardPageSelect<true>;
     'introduction-page': IntroductionPageSelect<false> | IntroductionPageSelect<true>;
+    'education-page': EducationPageSelect<false> | EducationPageSelect<true>;
   };
   locale: null;
   user: User & {
@@ -203,6 +209,50 @@ export interface BoardMember {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "statutes".
+ */
+export interface Statute {
+  id: number;
+  title: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs".
+ */
+export interface Program {
+  id: number;
+  code: string;
+  name: string;
+  degree?: ('Kandidatexamen' | 'Master' | 'Högskoleexamen') | null;
+  description?: string | null;
+  url: string;
+  color?:
+    | ('#FDE300' | '#FF6A00' | '#E43222' | '#e7f0ff' | '#ffe8e5' | '#ecfff3' | '#fff6cc' | '#ffffff' | '#f3f4f6')
+    | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -219,6 +269,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'board-members';
         value: number | BoardMember;
+      } | null)
+    | ({
+        relationTo: 'statutes';
+        value: number | Statute;
+      } | null)
+    | ({
+        relationTo: 'programs';
+        value: number | Program;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -320,6 +378,32 @@ export interface BoardMembersSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "statutes_select".
+ */
+export interface StatutesSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs_select".
+ */
+export interface ProgramsSelect<T extends boolean = true> {
+  code?: T;
+  name?: T;
+  degree?: T;
+  description?: T;
+  url?: T;
+  color?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -446,6 +530,30 @@ export interface IntroductionPage {
   createdAt?: string | null;
 }
 /**
+ * Utbildning page content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "education-page".
+ */
+export interface EducationPage {
+  id: number;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  heroImage?: (number | null) | Media;
+  sections?:
+    | {
+        title?: string | null;
+        text?: string | null;
+        image?: (number | null) | Media;
+        ctaLabel?: string | null;
+        ctaUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "navigation_select".
  */
@@ -516,6 +624,28 @@ export interface BoardPageSelect<T extends boolean = true> {
  * via the `definition` "introduction-page_select".
  */
 export interface IntroductionPageSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroSubtitle?: T;
+  heroImage?: T;
+  sections?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        ctaLabel?: T;
+        ctaUrl?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "education-page_select".
+ */
+export interface EducationPageSelect<T extends boolean = true> {
   heroTitle?: T;
   heroSubtitle?: T;
   heroImage?: T;

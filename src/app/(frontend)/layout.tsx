@@ -1,4 +1,5 @@
 import "./styles.css";
+import ServerNav from "@/components/server-nav";
 
 export const metadata = {
 	description: "A blank template using Payload in a Next.js app.",
@@ -12,6 +13,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 		<html lang="en">
 			<body>
 				<main>{children}</main>
+				<ServerNav />
 			</body>
 		</html>
 	);
