@@ -27,7 +27,7 @@ export default async function HomePage() {
 	).docs;
 
 	return (
-		<main className="relative">
+		<>
 			<div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[160vh] hero-gradient mask-bottom-fade" />
 			{/* Hero */}
 			<section className="relative mx-auto flex min-h-screen w-full flex-col items-center justify-center px-5 py-20">
@@ -167,6 +167,6 @@ export default async function HomePage() {
 					</div>
 				</div>
 			</section>
-		</main>
+		</>
 	);
 }

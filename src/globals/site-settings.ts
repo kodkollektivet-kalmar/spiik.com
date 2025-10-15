@@ -12,9 +12,33 @@ export const SiteSettings: GlobalConfig = {
 		{
 			name: "socialLinks",
 			type: "array",
+			labels: {
+				singular: "Social länk",
+				plural: "Sociala länkar",
+			},
 			fields: [
-				{ name: "platform", type: "text", required: true },
+				{
+					name: "platform",
+					type: "select",
+					options: [
+						{ label: "Instagram", value: "instagram" },
+						{ label: "Facebook", value: "facebook" },
+						{ label: "TikTok", value: "tiktok" },
+						{ label: "LinkedIn", value: "linkedin" },
+						{ label: "YouTube", value: "youtube" },
+						{ label: "Spotify", value: "spotify" },
+						{ label: "Discord", value: "discord" },
+						{ label: "Webb", value: "web" },
+					],
+					required: true,
+				},
+				{ name: "label", type: "text", label: "Visningsnamn" },
 				{ name: "url", type: "text", required: true },
+				{
+					name: "username",
+					type: "text",
+					label: "Användarnamn/handle",
+				},
 			],
 		},
 	],

@@ -26,46 +26,94 @@ export default async function StyrelsenPage() {
 		.docs;
 
 	return (
-		<div style={{ padding: 24 }}>
-			<h1>{boardPage.heroTitle ?? "Styrelsen"}</h1>
-			<p>{boardPage.heroSubtitle}</p>
-			<div
-				style={{
-					display: "grid",
-					gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-					gap: 24,
-					marginTop: 24,
-				}}
-			>
-				{members?.map((m) => (
-					<article
-						key={m.id}
-						style={{ border: "1px solid #eee", borderRadius: 12, padding: 16 }}
-					>
-						{typeof m.image === "object" && m.image?.url && (
-							<Image
-								src={m.image.url}
-								alt={m.image.alt ?? m.name}
-								width={500}
-								height={600}
-								style={{ width: "100%", height: "auto" }}
-							/>
-						)}
-						<h3 style={{ marginTop: 8 }}>{m.name}</h3>
-						<p>{m.position}</p>
-						{m.studies && <p>Studerar: {m.studies}</p>}
-						{m.message && <p>Meddelande: {m.message}</p>}
-						{m.quote && <p>"{m.quote}"</p>}
-						{m.merit && <p>Merit: {m.merit}</p>}
-						{m.favoriteGame && <p>Favoritspel: {m.favoriteGame}</p>}
-						{m.email && (
-							<p>
-								<a href={`mailto:${m.email}`}>{m.email}</a>
-							</p>
-						)}
-					</article>
-				))}
-			</div>
+		<div className="relative min-h-screen bg-white">
+			{/* Hero */}
+			<section className="relative mx-auto flex w-full items-center justify-center overflow-hidden px-5 py-8 text-center sm:py-20">
+				<div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,#FDE300_0%,#FF6A00_45%,#E43222_95%)] opacity-95" />
+				<div className="max-w-screen-sm text-foreground">
+					<p className="text-sm uppercase tracking-[0.25em] text-white/80">
+						Styrelsen
+					</p>
+					<h1 className="mt-3 text-4xl font-extrabold leading-snug">
+						{boardPage.heroTitle ?? "Möt SPIIKs styrelse"}
+					</h1>
+					{boardPage.heroSubtitle && (
+						<p className="text-base leading-7 text-foreground/70">
+							{boardPage.heroSubtitle}
+						</p>
+					)}
+				</div>
+			</section>
+
+			{/* Members grid */}
+			<section className="relative pb-24">
+				<div className="mx-auto grid max-w-screen-lg grid-cols-1 gap-6 px-5 sm:grid-cols-2 lg:grid-cols-3">
+					{members.map((member) => {
+						const image =
+							typeof member.image === "object" && member.image !== null
+								? member.image
+								: null;
+
+						return (
+							<article
+								key={member.id}
+								className="flex h-full flex-col overflow-hidden rounded-3xl bg-white p-5 shadow-xl ring-1 ring-black/5"
+							>
+								<div className="relative mb-4 aspect-[3/4] w-full overflow-hidden rounded-2xl bg-gradient-to-b from-zinc-100 to-zinc-200">
+									{image?.url && (
+										<Image
+											src={image.url}
+											alt={image.alt ?? member.name}
+											fill
+											className="object-cover"
+											priority={false}
+										/>
+									)}
+								</div>
+								<div className="flex flex-col gap-2">
+									<div>
+										<h3 className="text-lg font-semibold text-foreground">
+											{member.name}
+										</h3>
+										<p className="text-sm font-medium uppercase tracking-wide text-[#c1121f]">
+											{member.position}
+										</p>
+									</div>
+
+									{member.message && (
+										<p className="text-sm leading-6 text-foreground/80">
+											{member.message}
+										</p>
+									)}
+
+									<div className="grid grid-cols-1 gap-1 text-sm text-foreground/60">
+										{member.studies && <p>Studerar: {member.studies}</p>}
+										{member.merit && <p>Merit: {member.merit}</p>}
+										{member.favoriteGame && (
+											<p>Favoritspel: {member.favoriteGame}</p>
+										)}
+									</div>
+
+									{member.quote && (
+										<blockquote className="mt-2 border-l-2 border-[#FDE300] pl-3 text-sm italic text-foreground/70">
+											“{member.quote}”
+										</blockquote>
+									)}
+
+									{member.email && (
+										<a
+											href={`mailto:${member.email}`}
+											className="mt-3 inline-flex items-center justify-center rounded-full bg-[#c1121f] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#a20e1b]"
+										>
+											Kontakta
+										</a>
+									)}
+								</div>
+							</article>
+						);
+					})}
+				</div>
+			</section>
 		</div>
 	);
 }

@@ -95,14 +95,12 @@ export interface Config {
     'site-settings': SiteSetting;
     'board-page': BoardPage;
     'introduction-page': IntroductionPage;
-    'education-page': EducationPage;
   };
   globalsSelect: {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'board-page': BoardPageSelect<false> | BoardPageSelect<true>;
     'introduction-page': IntroductionPageSelect<false> | IntroductionPageSelect<true>;
-    'education-page': EducationPageSelect<false> | EducationPageSelect<true>;
   };
   locale: null;
   user: User & {
@@ -473,8 +471,10 @@ export interface SiteSetting {
   contactEmail?: string | null;
   socialLinks?:
     | {
-        platform: string;
+        platform: 'instagram' | 'facebook' | 'tiktok' | 'linkedin' | 'youtube' | 'spotify' | 'discord' | 'web';
+        label?: string | null;
         url: string;
+        username?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -495,7 +495,21 @@ export interface BoardPage {
   sections?:
     | {
         title?: string | null;
-        text?: string | null;
+        text?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
         image?: (number | null) | Media;
         ctaLabel?: string | null;
         ctaUrl?: string | null;
@@ -519,34 +533,47 @@ export interface IntroductionPage {
   sections?:
     | {
         title?: string | null;
-        text?: string | null;
+        text?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
         image?: (number | null) | Media;
         ctaLabel?: string | null;
         ctaUrl?: string | null;
         id?: string | null;
       }[]
     | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * Utbildning page content
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "education-page".
- */
-export interface EducationPage {
-  id: number;
-  heroTitle?: string | null;
-  heroSubtitle?: string | null;
-  heroImage?: (number | null) | Media;
-  sections?:
+  membershipTiers?:
     | {
-        title?: string | null;
-        text?: string | null;
-        image?: (number | null) | Media;
-        ctaLabel?: string | null;
-        ctaUrl?: string | null;
+        label: string;
+        title: string;
+        description: string;
+        prices?:
+          | {
+              years: '1' | '2' | '3';
+              amount: string;
+              id?: string | null;
+            }[]
+          | null;
+        gradient?:
+          | (
+              | 'from-[#FFF4DE] via-white to-[#FFE6C8]'
+              | 'from-[#EAE9FF] via-white to-[#D9F1FF]'
+              | 'from-[#FFE8E8] via-white to-[#FFE0E0]'
+              | 'from-[#E8F5E8] via-white to-[#E0F0E0]'
+            )
+          | null;
         id?: string | null;
       }[]
     | null;
@@ -590,7 +617,9 @@ export interface SiteSettingsSelect<T extends boolean = true> {
     | T
     | {
         platform?: T;
+        label?: T;
         url?: T;
+        username?: T;
         id?: T;
       };
   updatedAt?: T;
@@ -637,26 +666,20 @@ export interface IntroductionPageSelect<T extends boolean = true> {
         ctaUrl?: T;
         id?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "education-page_select".
- */
-export interface EducationPageSelect<T extends boolean = true> {
-  heroTitle?: T;
-  heroSubtitle?: T;
-  heroImage?: T;
-  sections?:
+  membershipTiers?:
     | T
     | {
+        label?: T;
         title?: T;
-        text?: T;
-        image?: T;
-        ctaLabel?: T;
-        ctaUrl?: T;
+        description?: T;
+        prices?:
+          | T
+          | {
+              years?: T;
+              amount?: T;
+              id?: T;
+            };
+        gradient?: T;
         id?: T;
       };
   updatedAt?: T;
