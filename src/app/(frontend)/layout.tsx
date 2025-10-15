@@ -1,4 +1,5 @@
 import "./styles.css";
+import { Footer } from "@/components/footer";
 import ServerNav from "@/components/server-nav";
 
 export const metadata = {
@@ -12,7 +13,8 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
 			<body>
-				<main>{children}</main>
+				<main className="relative">{children}</main>
+				<Footer />
 				<ServerNav />
 			</body>
 		</html>
