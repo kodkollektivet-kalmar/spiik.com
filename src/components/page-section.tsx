@@ -1,5 +1,6 @@
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import Image from "next/image";
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { richTextStyles } from "@/lib/rich-text-styles";
 import { cn } from "@/lib/utils";
@@ -57,80 +58,48 @@ function PageSection({
 		<section className={`py-16 ${className}`}>
 			<div className="mx-auto max-w-screen-xl">
 				{hasImage && hasText ? (
-					<div
-						className={`grid gap-0 lg:grid-cols-2 lg:items-center ${
-							isImageLeft ? "lg:grid-flow-col" : "lg:grid-flow-col-dense"
-						}`}
-					>
-						{isImageLeft ? (
-							<>
-								<div className="relative aspect-square overflow-hidden rounded-xl bg-[#f1f2f4]">
-									<Image
-										src={image?.url ?? ""}
-										alt={image?.alt ?? section.title ?? ""}
-										fill
-										className="object-cover"
-									/>
-								</div>
-								<div className="space-y-4 px-5 lg:px-8">
-									{section.title && (
-										<h2 className="text-2xl font-semibold text-foreground">
-											{section.title}
-										</h2>
-									)}
-									<div
-										className={`prose prose-sm max-w-none text-foreground/80 ${richTextStyles}`}
-									>
-										{hasText && section.text && (
-											<RichText data={section.text} />
-										)}
-									</div>
-									{hasCta && section.ctaUrl && (
-										<a
-											href={section.ctaUrl}
-											className="inline-flex text-sm font-semibold text-[#c1121f] hover:underline"
-										>
-											{section.ctaLabel}
-										</a>
-									)}
-									{children}
-								</div>
-							</>
-						) : (
-							<>
-								<div className="space-y-4 px-5 lg:px-8 lg:col-start-2">
-									{section.title && (
-										<h2 className="text-2xl font-semibold text-foreground">
-											{section.title}
-										</h2>
-									)}
-									<div
-										className={`prose prose-sm max-w-none text-foreground/80 ${richTextStyles}`}
-									>
-										{hasText && section.text && (
-											<RichText data={section.text} />
-										)}
-									</div>
-									{hasCta && section.ctaUrl && (
-										<a
-											href={section.ctaUrl}
-											className="inline-flex text-sm font-semibold text-[#c1121f] hover:underline"
-										>
-											{section.ctaLabel}
-										</a>
-									)}
-									{children}
-								</div>
-								<div className="relative aspect-square overflow-hidden rounded-xl bg-[#f1f2f4] lg:col-start-1">
-									<Image
-										src={image?.url ?? ""}
-										alt={image?.alt ?? section.title ?? ""}
-										fill
-										className="object-cover"
-									/>
-								</div>
-							</>
-						)}
+					<div className="flex flex-col gap-0 lg:grid lg:grid-cols-2 lg:items-center">
+						{/* Text content - always first on mobile */}
+						<div
+							className={`space-y-4 px-5 lg:px-8 ${isImageLeft ? "lg:col-start-2" : ""}`}
+						>
+							{section.title && (
+								<h2 className="text-2xl font-semibold text-foreground">
+									{section.title}
+								</h2>
+							)}
+							<div
+								className={`prose prose-sm max-w-none text-foreground/80 ${richTextStyles}`}
+							>
+								{hasText && section.text && <RichText data={section.text} />}
+							</div>
+							{hasCta && section.ctaUrl && (
+								<Link
+									href={section.ctaUrl}
+									className="inline-flex text-sm font-semibold text-[#c1121f] hover:underline"
+								>
+									{section.ctaLabel}
+								</Link>
+							)}
+							{children}
+						</div>
+
+						{/* Image - always second on mobile */}
+						<div
+							className={cn(
+								"relative aspect-square overflow-hidden rounded-3xl bg-[#f1f2f4]",
+								isImageLeft
+									? "lg:col-start-1 lg:row-start-1"
+									: "lg:col-start-2 lg:row-start-1",
+							)}
+						>
+							<Image
+								src={image?.url ?? ""}
+								alt={image?.alt ?? section.title ?? ""}
+								fill
+								className="object-cover"
+							/>
+						</div>
 					</div>
 				) : (
 					<div className="space-y-6 px-5">
@@ -139,7 +108,7 @@ function PageSection({
 								{section.title}
 							</h2>
 						)}
-						{hasText && section.text ? (
+						{hasText && section.text && (
 							<div
 								className={cn(
 									"prose prose-sm max-w-none text-foreground/80",
@@ -148,7 +117,7 @@ function PageSection({
 							>
 								<RichText data={section.text} />
 							</div>
-						) : null}
+						)}
 						{hasImage && image && image.url && (
 							<div className="relative aspect-square overflow-hidden rounded-xl bg-[#f1f2f4]">
 								<Image
@@ -160,12 +129,12 @@ function PageSection({
 							</div>
 						)}
 						{hasCta && section.ctaUrl && (
-							<a
+							<Link
 								href={section.ctaUrl}
 								className="inline-flex text-sm font-semibold text-[#c1121f] hover:underline"
 							>
 								{section.ctaLabel}
-							</a>
+							</Link>
 						)}
 						{children}
 					</div>
