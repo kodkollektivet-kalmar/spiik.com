@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { revalidatePages } from "@/lib/revalidate-pages";
 import { PROGRAMS } from "./constants";
 
 export const Programs: CollectionConfig = {
@@ -43,4 +44,18 @@ export const Programs: CollectionConfig = {
 		},
 		{ name: "order", type: "number" },
 	],
+	hooks: {
+		afterChange: [
+			async ({ doc, operation }) => {
+				console.log(`Program ${operation}:`, doc.name);
+				await revalidatePages({ collection: PROGRAMS });
+			},
+		],
+		afterDelete: [
+			async ({ doc }) => {
+				console.log(`Program deleted:`, doc.name);
+				await revalidatePages({ collection: PROGRAMS });
+			},
+		],
+	},
 };

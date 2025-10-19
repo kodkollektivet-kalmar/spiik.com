@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { revalidatePages } from "@/lib/revalidate-pages";
 import { MEDIA } from "./constants";
 
 export const Media: CollectionConfig = {
@@ -14,4 +15,18 @@ export const Media: CollectionConfig = {
 		},
 	],
 	upload: true,
+	hooks: {
+		afterChange: [
+			async ({ doc, operation }) => {
+				console.log(`Media ${operation}:`, doc.filename);
+				await revalidatePages({ collection: MEDIA });
+			},
+		],
+		afterDelete: [
+			async ({ doc }) => {
+				console.log(`Media deleted:`, doc.filename);
+				await revalidatePages({ collection: MEDIA });
+			},
+		],
+	},
 };

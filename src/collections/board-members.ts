@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { revalidatePages } from "@/lib/revalidate-pages";
 import { BOARD_MEMBERS, MEDIA } from "./constants";
 
 const positions = [
@@ -83,5 +84,19 @@ export const BoardMembers: CollectionConfig = {
 	],
 	versions: {
 		drafts: true,
+	},
+	hooks: {
+		afterChange: [
+			async ({ doc, operation }) => {
+				console.log(`Board member ${operation}:`, doc.name);
+				await revalidatePages({ collection: BOARD_MEMBERS });
+			},
+		],
+		afterDelete: [
+			async ({ doc }) => {
+				console.log(`Board member deleted:`, doc.name);
+				await revalidatePages({ collection: BOARD_MEMBERS });
+			},
+		],
 	},
 };
