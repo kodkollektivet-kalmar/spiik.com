@@ -724,24 +724,34 @@ export interface MembershipPage {
  */
 export interface SponsorsPage {
   id: number;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  heroImage?: (number | null) | Media;
+  heroBadge?: string | null;
   /**
-   * Main content for this page
+   * List of sponsors with logos and descriptions
    */
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
+  sponsors?:
+    | {
+        /**
+         * Sponsor logo image
+         */
+        logo: number | Media;
+        /**
+         * Sponsor company name
+         */
+        name: string;
+        /**
+         * Short description about the sponsor
+         */
+        description?: string | null;
+        /**
+         * Sponsor website URL (optional)
+         */
+        website?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -753,6 +763,10 @@ export interface SponsorsPage {
  */
 export interface StatutesPage {
   id: number;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  heroImage?: (number | null) | Media;
+  heroBadge?: string | null;
   /**
    * Main content for this page
    */
@@ -959,7 +973,19 @@ export interface MembershipPageSelect<T extends boolean = true> {
  * via the `definition` "sponsors-page_select".
  */
 export interface SponsorsPageSelect<T extends boolean = true> {
-  content?: T;
+  heroTitle?: T;
+  heroSubtitle?: T;
+  heroImage?: T;
+  heroBadge?: T;
+  sponsors?:
+    | T
+    | {
+        logo?: T;
+        name?: T;
+        description?: T;
+        website?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -969,6 +995,10 @@ export interface SponsorsPageSelect<T extends boolean = true> {
  * via the `definition` "statutes-page_select".
  */
 export interface StatutesPageSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroSubtitle?: T;
+  heroImage?: T;
+  heroBadge?: T;
   content?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -114,10 +114,54 @@ const carouselImagesField: Field = {
 	},
 };
 
+const sponsorsField: Field = {
+	name: "sponsors",
+	type: "array",
+	label: "Sponsors",
+	labels: { singular: "Sponsor", plural: "Sponsors" },
+	fields: [
+		{
+			name: "logo",
+			type: "upload",
+			relationTo: MEDIA,
+			required: true,
+			admin: {
+				description: "Sponsor logo image",
+			},
+		},
+		{
+			name: "name",
+			type: "text",
+			required: true,
+			admin: {
+				description: "Sponsor company name",
+			},
+		},
+		{
+			name: "description",
+			type: "textarea",
+			admin: {
+				description: "Short description about the sponsor",
+			},
+		},
+		{
+			name: "website",
+			type: "text",
+			admin: {
+				description: "Sponsor website URL (optional)",
+			},
+		},
+	],
+	admin: {
+		description: "List of sponsors with logos and descriptions",
+	},
+};
+
 export {
 	heroFields,
 	sectionsField,
 	membershipLinkFields,
 	membershipTiersField,
 	carouselImagesField,
+	sponsorsField,
 };

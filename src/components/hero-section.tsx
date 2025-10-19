@@ -29,10 +29,8 @@ function HeroSection({
 				className,
 			)}
 		>
-			{/* Background gradient */}
-			<div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_top,#FDE300_0%,#FF6A00_45%,#E43222_90%,white_120%)]" />
+			{/* <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_top,#FDE300_0%,#FF6A00_45%,#E43222_90%,white_120%)]" /> */}
 
-			{/* Background image */}
 			{heroImage?.url && (
 				<div className="pointer-events-none absolute inset-0 z-10 rounded-b-2xl">
 					<Image
@@ -46,10 +44,8 @@ function HeroSection({
 				</div>
 			)}
 
-			{/* Grain texture overlay */}
 			<div className="pointer-events-none absolute inset-0 z-30 bg-[url('/grain.png')] opacity-10" />
 
-			{/* Content */}
 			<div className="relative z-40 flex max-w-screen-md flex-col items-center gap-4 text-center">
 				{badge && (
 					<p className="text-xs uppercase tracking-[0.35em] text-[#c1121f]">

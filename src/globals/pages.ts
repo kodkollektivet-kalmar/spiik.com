@@ -14,6 +14,7 @@ import {
 	membershipLinkFields,
 	membershipTiersField,
 	sectionsField,
+	sponsorsField,
 } from "./fields";
 
 function pageGlobal(slug: string, label: string): GlobalConfig {
@@ -101,11 +102,27 @@ function richTextPage(slug: string, label: string): GlobalConfig {
 	};
 }
 
+function sponsorsPage(slug: string, label: string): GlobalConfig {
+	return {
+		slug,
+		admin: { group: "Content", description: `${label} page content` },
+		fields: [...heroFields, sponsorsField],
+		hooks: {
+			afterChange: [
+				async () => {
+					console.log(`Global ${slug} updated`);
+					await revalidatePages({ global: slug });
+				},
+			],
+		},
+	};
+}
+
 const BoardPage = pageGlobal(BOARD_PAGE, "Styrelsen");
 const IntroductionPage = introductionPage(INTRODUCTION_PAGE, "Introduktion");
 const HousingPage = pageGlobal(HOUSING_PAGE, "Boende");
 const MembershipPage = membershipPage(MEMBERSHIP_PAGE, "Medlemskap");
-const SponsorsPage = richTextPage(SPONSORS_PAGE, "Sponsorer");
+const SponsorsPage = sponsorsPage(SPONSORS_PAGE, "Sponsorer");
 const StatutesPage = richTextPage(STATUTES_PAGE, "Stadgar");
 
 const pageGlobals = [
