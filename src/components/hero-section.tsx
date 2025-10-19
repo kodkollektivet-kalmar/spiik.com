@@ -42,7 +42,7 @@ function HeroSection({
 						priority
 						className="rounded-b-2xl object-cover object-center"
 					/>
-					<div className="absolute inset-0 z-20 rounded-b-2xl bg-gradient-to-b from-black/55 via-black/35 to-black/20" />
+					<div className="absolute inset-0 z-20 rounded-b-2xl bg-gradient-to-b from-black/70 via-black/55 to-black/40" />
 				</div>
 			)}
 
