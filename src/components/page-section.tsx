@@ -87,7 +87,7 @@ function PageSection({
 						{/* Image - always second on mobile */}
 						<div
 							className={cn(
-								"relative aspect-square overflow-hidden rounded-3xl bg-[#f1f2f4]",
+								"relative aspect-square overflow-hidden rounded-3xl bg-[#f1f2f4] mt-4 lg:mt-0",
 								isImageLeft
 									? "lg:col-start-1 lg:row-start-1"
 									: "lg:col-start-2 lg:row-start-1",
