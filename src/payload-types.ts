@@ -492,6 +492,7 @@ export interface BoardPage {
   heroTitle?: string | null;
   heroSubtitle?: string | null;
   heroImage?: (number | null) | Media;
+  heroBadge?: string | null;
   sections?:
     | {
         title?: string | null;
@@ -530,6 +531,7 @@ export interface IntroductionPage {
   heroTitle?: string | null;
   heroSubtitle?: string | null;
   heroImage?: (number | null) | Media;
+  heroBadge?: string | null;
   sections?:
     | {
         title?: string | null;
@@ -554,6 +556,14 @@ export interface IntroductionPage {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Länk till vart medlemskap kan köpas, ex. länk till att ladda ner Orbi appen
+   */
+  membershipLink?: string | null;
+  /**
+   * Beskrivning för länken till medlemskap, ex. 'Ladda ner appen och sök på SPIIK för att köpa medlemskap'
+   */
+  membershipLinkDescription?: string | null;
   membershipTiers?:
     | {
         label: string;
@@ -634,6 +644,7 @@ export interface BoardPageSelect<T extends boolean = true> {
   heroTitle?: T;
   heroSubtitle?: T;
   heroImage?: T;
+  heroBadge?: T;
   sections?:
     | T
     | {
@@ -656,6 +667,7 @@ export interface IntroductionPageSelect<T extends boolean = true> {
   heroTitle?: T;
   heroSubtitle?: T;
   heroImage?: T;
+  heroBadge?: T;
   sections?:
     | T
     | {
@@ -666,6 +678,8 @@ export interface IntroductionPageSelect<T extends boolean = true> {
         ctaUrl?: T;
         id?: T;
       };
+  membershipLink?: T;
+  membershipLinkDescription?: T;
   membershipTiers?:
     | T
     | {

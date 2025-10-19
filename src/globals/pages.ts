@@ -10,6 +10,7 @@ function pageGlobal(slug: string, label: string): GlobalConfig {
 			{ name: "heroTitle", type: "text" },
 			{ name: "heroSubtitle", type: "text" },
 			{ name: "heroImage", type: "upload", relationTo: MEDIA },
+			{ name: "heroBadge", type: "text" },
 			{
 				name: "sections",
 				type: "array",
@@ -33,6 +34,24 @@ function introductionPage(slug: string, label: string): GlobalConfig {
 		...baseConfig,
 		fields: [
 			...baseConfig.fields,
+			{
+				name: "membershipLink",
+				type: "text",
+				label: "Membership Link",
+				admin: {
+					description:
+						"Länk till vart medlemskap kan köpas, ex. länk till att ladda ner Orbi appen",
+				},
+			},
+			{
+				name: "membershipLinkDescription",
+				type: "text",
+				label: "Membership Link Description",
+				admin: {
+					description:
+						"Beskrivning för länken till medlemskap, ex. 'Ladda ner appen och sök på SPIIK för att köpa medlemskap'",
+				},
+			},
 			{
 				name: "membershipTiers",
 				type: "array",
