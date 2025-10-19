@@ -95,12 +95,20 @@ export interface Config {
     'site-settings': SiteSetting;
     'board-page': BoardPage;
     'introduction-page': IntroductionPage;
+    'housing-page': HousingPage;
+    'membership-page': MembershipPage;
+    'sponsors-page': SponsorsPage;
+    'statutes-page': StatutesPage;
   };
   globalsSelect: {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'board-page': BoardPageSelect<false> | BoardPageSelect<true>;
     'introduction-page': IntroductionPageSelect<false> | IntroductionPageSelect<true>;
+    'housing-page': HousingPageSelect<false> | HousingPageSelect<true>;
+    'membership-page': MembershipPageSelect<false> | MembershipPageSelect<true>;
+    'sponsors-page': SponsorsPageSelect<false> | SponsorsPageSelect<true>;
+    'statutes-page': StatutesPageSelect<false> | StatutesPageSelect<true>;
   };
   locale: null;
   user: User & {
@@ -587,6 +595,182 @@ export interface IntroductionPage {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Images to display in the carousel section
+   */
+  carouselImages?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Boende page content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "housing-page".
+ */
+export interface HousingPage {
+  id: number;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  heroImage?: (number | null) | Media;
+  heroBadge?: string | null;
+  sections?:
+    | {
+        title?: string | null;
+        text?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        image?: (number | null) | Media;
+        ctaLabel?: string | null;
+        ctaUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Medlemskap page content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "membership-page".
+ */
+export interface MembershipPage {
+  id: number;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  heroImage?: (number | null) | Media;
+  heroBadge?: string | null;
+  sections?:
+    | {
+        title?: string | null;
+        text?: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        image?: (number | null) | Media;
+        ctaLabel?: string | null;
+        ctaUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Länk till vart medlemskap kan köpas, ex. länk till att ladda ner Orbi appen
+   */
+  membershipLink?: string | null;
+  /**
+   * Beskrivning för länken till medlemskap, ex. 'Ladda ner appen och sök på SPIIK för att köpa medlemskap'
+   */
+  membershipLinkDescription?: string | null;
+  membershipTiers?:
+    | {
+        label: string;
+        title: string;
+        description: string;
+        prices?:
+          | {
+              years: '1' | '2' | '3';
+              amount: string;
+              id?: string | null;
+            }[]
+          | null;
+        gradient?:
+          | (
+              | 'from-[#FFF4DE] via-white to-[#FFE6C8]'
+              | 'from-[#EAE9FF] via-white to-[#D9F1FF]'
+              | 'from-[#FFE8E8] via-white to-[#FFE0E0]'
+              | 'from-[#E8F5E8] via-white to-[#E0F0E0]'
+            )
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Sponsorer page content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors-page".
+ */
+export interface SponsorsPage {
+  id: number;
+  /**
+   * Main content for this page
+   */
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Stadgar page content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "statutes-page".
+ */
+export interface StatutesPage {
+  id: number;
+  /**
+   * Main content for this page
+   */
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -696,6 +880,96 @@ export interface IntroductionPageSelect<T extends boolean = true> {
         gradient?: T;
         id?: T;
       };
+  carouselImages?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "housing-page_select".
+ */
+export interface HousingPageSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroSubtitle?: T;
+  heroImage?: T;
+  heroBadge?: T;
+  sections?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        ctaLabel?: T;
+        ctaUrl?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "membership-page_select".
+ */
+export interface MembershipPageSelect<T extends boolean = true> {
+  heroTitle?: T;
+  heroSubtitle?: T;
+  heroImage?: T;
+  heroBadge?: T;
+  sections?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        ctaLabel?: T;
+        ctaUrl?: T;
+        id?: T;
+      };
+  membershipLink?: T;
+  membershipLinkDescription?: T;
+  membershipTiers?:
+    | T
+    | {
+        label?: T;
+        title?: T;
+        description?: T;
+        prices?:
+          | T
+          | {
+              years?: T;
+              amount?: T;
+              id?: T;
+            };
+        gradient?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sponsors-page_select".
+ */
+export interface SponsorsPageSelect<T extends boolean = true> {
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "statutes-page_select".
+ */
+export interface StatutesPageSelect<T extends boolean = true> {
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

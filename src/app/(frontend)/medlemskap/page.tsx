@@ -1,13 +1,12 @@
 import Link from "next/link";
 import type { Payload } from "payload";
 import { getPayload } from "payload";
-import { Carousel } from "@/components/carousel";
 import { HeroSection } from "@/components/hero-section";
 import { MembershipTierCard } from "@/components/membership-tier-card";
 import { PageSection } from "@/components/page-section";
-import { INTRODUCTION_PAGE } from "@/globals/constants";
+import { MEMBERSHIP_PAGE } from "@/globals/constants";
 import config from "@/payload.config";
-import type { Media } from "@/payload-types";
+import type { MembershipPage as MembershipPageType } from "@/payload-types";
 
 // Revalidate this page every week (604800 seconds)
 export const revalidate = 604800;
@@ -19,36 +18,30 @@ const gradientPalette = [
 	"from-[#E9FFF6] via-white to-[#E0F3FF]",
 ];
 
-export default async function IntroduktionPage() {
+export default async function MembershipPage() {
 	const payload: Payload = await getPayload({ config: await config });
-	const intro = await payload.findGlobal({
-		slug: INTRODUCTION_PAGE,
+	const membership = (await payload.findGlobal({
+		slug: MEMBERSHIP_PAGE,
 		depth: 2,
-	});
+	})) as MembershipPageType;
 
-	const heroTitle = intro.heroTitle?.trim() ?? "Introduktionen";
+	const heroTitle = membership.heroTitle?.trim() ?? "Medlemskap";
 	const heroSubtitle =
-		intro.heroSubtitle?.trim() ?? "Välkommen till SPIIKs introduktionsperiod.";
-	const heroImage = intro.heroImage ?? null;
-	const heroBadge = intro.heroBadge ?? "SPIIK";
-	const sections = intro.sections ?? [];
-	const membershipTiers = intro.membershipTiers ?? [];
-	const membershipLink = intro.membershipLink?.trim() ?? "";
+		membership.heroSubtitle?.trim() ??
+		"Bli medlem i SPIIK och få tillgång till alla fördelar.";
+	const sections = membership.sections ?? [];
+	const membershipTiers = membership.membershipTiers ?? [];
+	const membershipLink = membership.membershipLink?.trim() ?? "";
 	const membershipLinkDescription =
-		intro.membershipLinkDescription?.trim() ?? "";
-	const carouselImages =
-		intro.carouselImages
-			?.map((item) => item.image)
-			.filter((img): img is Media => typeof img === "object" && img !== null) ??
-		[];
+		membership.membershipLinkDescription?.trim() ?? "";
 
 	return (
 		<div className="relative overflow-hidden bg-white text-foreground">
 			<HeroSection
 				title={heroTitle}
 				subtitle={heroSubtitle}
-				image={heroImage}
-				badge={heroBadge}
+				image={membership.heroImage}
+				badge={membership.heroBadge ?? "SPIIK"}
 			/>
 
 			{sections.map((section, index) => (
@@ -109,25 +102,6 @@ export default async function IntroduktionPage() {
 								{membershipLinkDescription}
 							</p>
 						)}
-					</div>
-				</section>
-			)}
-
-			{carouselImages.length > 0 && (
-				<section className="py-20">
-					<div className="mx-auto max-w-screen-xl px-5 sm:px-10">
-						<div className="mx-auto max-w-3xl text-center mb-12">
-							<p className="text-xs uppercase tracking-[0.32em] text-[#E43222]/70">
-								Bilder
-							</p>
-							<h2 className="mt-3 text-3xl font-bold text-foreground text-balance sm:text-4xl">
-								Highlights från tidigare introduktioner
-							</h2>
-							<p className="mt-4 text-sm text-foreground/70">
-								Se bilder från tidigare introduktioner.
-							</p>
-						</div>
-						<Carousel images={carouselImages} className="mx-auto max-w-4xl" />
 					</div>
 				</section>
 			)}
