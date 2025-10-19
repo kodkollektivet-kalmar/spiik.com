@@ -25,6 +25,7 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['@/components/ui'],
+    globalNotFound: true,
   }
 }
 
