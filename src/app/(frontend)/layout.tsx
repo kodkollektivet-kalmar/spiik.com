@@ -3,8 +3,8 @@ import { Footer } from "@/components/footer";
 import ServerNav from "@/components/server-nav";
 
 export const metadata = {
-	description: "A blank template using Payload in a Next.js app.",
-	title: "Payload Blank Template",
+	name: "apple-mobile-web-app-title",
+	content: "SPIIK",
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

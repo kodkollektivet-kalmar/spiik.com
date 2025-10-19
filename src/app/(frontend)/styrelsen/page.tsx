@@ -14,6 +14,8 @@ import type {
 // Revalidate this page every week (604800 seconds)
 export const revalidate = 604800;
 
+export { metadata } from "./metadata";
+
 export default async function StyrelsenPage() {
 	const payload: Payload = await getPayload({ config: await config });
 

@@ -9,6 +9,8 @@ import type { StatutesPage as StatutesPageType } from "@/payload-types";
 // Revalidate this page every week (604800 seconds)
 export const revalidate = 604800;
 
+export { metadata } from "./metadata";
+
 export default async function StatutesPage() {
 	const payload: Payload = await getPayload({ config: await config });
 	const statutes = (await payload.findGlobal({

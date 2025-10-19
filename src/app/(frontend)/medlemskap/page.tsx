@@ -11,6 +11,8 @@ import type { MembershipPage as MembershipPageType } from "@/payload-types";
 // Revalidate this page every week (604800 seconds)
 export const revalidate = 604800;
 
+export { metadata } from "./metadata";
+
 const gradientPalette = [
 	"from-[#FFF4DE] via-white to-[#FFE6C8]",
 	"from-[#EAE9FF] via-white to-[#D9F1FF]",

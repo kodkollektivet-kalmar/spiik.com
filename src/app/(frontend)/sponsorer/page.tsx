@@ -1,14 +1,14 @@
-import { RichText } from "@payloadcms/richtext-lexical/react";
 import type { Payload } from "payload";
 import { getPayload } from "payload";
 import { SponsorCard } from "@/components/sponsor-card";
 import { SPONSORS_PAGE } from "@/globals/constants";
-import { richTextStyles } from "@/lib/rich-text-styles";
 import config from "@/payload.config";
 import type { SponsorsPage as SponsorsPageType } from "@/payload-types";
 
 // Revalidate this page every week (604800 seconds)
 export const revalidate = 604800;
+
+export { metadata } from "./metadata";
 
 export default async function SponsorsPage() {
 	const payload: Payload = await getPayload({ config: await config });
