@@ -45,6 +45,7 @@ export default async function HomePage() {
 					height={300}
 					className="w-auto px-16"
 					priority
+					quality={60}
 					sizes="(max-width: 640px) 200px, (max-width: 1024px) 260px, 300px"
 				/>
 
@@ -83,15 +84,17 @@ export default async function HomePage() {
 
 					{/* Vilka är vi? */}
 					<div className="mb-10 flex flex-col items-center">
-						<h3 className="mb-3 text-4xl font-semibold text-white">
+						<h2 className="mb-3 text-4xl font-semibold text-white">
 							Vilka är vi?
-						</h3>
+						</h2>
 						<Image
 							src="/kalle.png"
 							alt="SPIIK"
 							width={1000}
 							height={1000}
 							className="rounded-3xl object-cover h-[70vh]"
+							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 70vw"
+							quality={75}
 						/>
 						<p className="mt-3 text-center text-foreground/80">
 							SPIIK är en utbildningsförening under Linnéuniversitetets
@@ -104,9 +107,9 @@ export default async function HomePage() {
 
 					{/* Vart finns vi? */}
 					<div className="mb-10 flex flex-col items-center">
-						<h3 className="mb-3 text-4xl font-semibold text-spiik-red">
+						<h2 className="mb-3 text-4xl font-semibold text-spiik-red">
 							Vart finns vi?
-						</h3>
+						</h2>
 						<div className="h-[70vh] w-full overflow-hidden rounded-3xl ring-1 ring-black/5 shadow-xl">
 							{(() => {
 								const GoogleMap = dynamic(() =>
@@ -130,9 +133,9 @@ export default async function HomePage() {
 
 					{/* Utbildningar prompt */}
 					<div className="mb-6 flex flex-col items-center">
-						<h3 className="text-4xl mb-3 font-semibold text-spiik-yellow">
+						<h2 className="text-4xl mb-3 font-semibold text-spiik-yellow">
 							Utbildningar!
-						</h3>
+						</h2>
 						<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
 							{programs.map((p) => (
 								<div
