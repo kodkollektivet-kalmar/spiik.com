@@ -8,6 +8,7 @@ const env = createEnv({
 			.default("development"),
 		PAYLOAD_SECRET: z.string(),
 		DATABASE_URL: z.string(),
+		UPLOADTHING_TOKEN: z.string(),
 	},
 	client: {
 		// Public environment variables here...
@@ -16,6 +17,7 @@ const env = createEnv({
 		NODE_ENV: process.env.NODE_ENV,
 		PAYLOAD_SECRET: process.env.PAYLOAD_SECRET,
 		DATABASE_URL: process.env.DATABASE_URL,
+		UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
 	},
 });
 

@@ -3,6 +3,7 @@ import { fileURLToPath } from "node:url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { payloadCloudPlugin } from "@payloadcms/payload-cloud";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
+import { uploadthingStorage } from "@payloadcms/storage-uploadthing";
 import { buildConfig } from "payload";
 import sharp from "sharp";
 import { collections } from "./collections/";
@@ -40,6 +41,14 @@ export default buildConfig({
 	sharp,
 	plugins: [
 		payloadCloudPlugin(),
-		// storage-adapter-placeholder
+		uploadthingStorage({
+			collections: {
+				media: true,
+			},
+			options: {
+				token: env.UPLOADTHING_TOKEN,
+				acl: "public-read",
+			},
+		}),
 	],
 });
