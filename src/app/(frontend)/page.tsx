@@ -1,4 +1,5 @@
 import { ChevronDown, MoveDown } from "lucide-react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import "./styles.css";
 import type { Payload } from "payload";
@@ -44,6 +45,7 @@ export default async function HomePage() {
 					height={300}
 					className="w-auto px-16"
 					priority
+					sizes="(max-width: 640px) 200px, (max-width: 1024px) 260px, 300px"
 				/>
 
 				{/* Headline */}
@@ -106,14 +108,17 @@ export default async function HomePage() {
 							Vart finns vi?
 						</h3>
 						<div className="h-[70vh] w-full overflow-hidden rounded-3xl ring-1 ring-black/5 shadow-xl">
-							<iframe
-								className="h-full w-full"
-								src="https://www.google.com/maps/d/embed?mid=1_1o4t-ET9iWjq4iadIJxW6qPcVb1xoc&ehbc=2E312F"
-								loading="lazy"
-								style={{ border: 0 }}
-								allowFullScreen
-								title="Våning 4 i hus Magna"
-							/>
+							{(() => {
+								const GoogleMap = dynamic(() =>
+									import("@/components/google-map").then((m) => m.GoogleMap),
+								);
+								return (
+									<GoogleMap
+										src="https://www.google.com/maps/d/embed?mid=1_1o4t-ET9iWjq4iadIJxW6qPcVb1xoc&ehbc=2E312F"
+										title="Våning 4 i hus Magna"
+									/>
+								);
+							})()}
 						</div>
 						<p className="mt-2 text-center text-sm font-semibold">
 							Våning 4 i hus Magna
