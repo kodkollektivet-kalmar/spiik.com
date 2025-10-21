@@ -1,4 +1,5 @@
 import type { GlobalConfig } from "payload";
+import { revalidatePages } from "@/lib/revalidate-pages";
 import { NAVIGATION } from "./constants";
 
 export const Navigation: GlobalConfig = {
@@ -26,4 +27,12 @@ export const Navigation: GlobalConfig = {
 			],
 		},
 	],
+	hooks: {
+		afterChange: [
+			async () => {
+				console.log("Navigation updated");
+				await revalidatePages({ global: NAVIGATION });
+			},
+		],
+	},
 };

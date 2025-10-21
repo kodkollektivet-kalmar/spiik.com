@@ -32,7 +32,7 @@ export default async function IntroduktionPage() {
 	const heroSubtitle =
 		intro.heroSubtitle?.trim() ?? "Välkommen till SPIIKs introduktionsperiod.";
 	const heroImage = intro.heroImage ?? null;
-	const heroBadge = intro.heroBadge ?? "SPIIK";
+	const heroBadge = intro.heroBadge ?? null;
 	const sections = intro.sections ?? [];
 	const membershipTiers = intro.membershipTiers ?? [];
 	const membershipLink = intro.membershipLink?.trim() ?? "";

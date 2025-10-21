@@ -102,7 +102,7 @@ function PageSection({
 						</div>
 					</div>
 				) : (
-					<div className="space-y-6 px-5">
+					<div className="space-y-6 px-5 text-center">
 						{section.title && (
 							<h2 className="text-2xl font-semibold text-foreground">
 								{section.title}
@@ -111,7 +111,7 @@ function PageSection({
 						{hasText && section.text && (
 							<div
 								className={cn(
-									"prose prose-sm max-w-none text-foreground/80",
+									"prose prose-sm max-w-none text-foreground/80 mx-auto",
 									richTextStyles,
 								)}
 							>
@@ -119,7 +119,7 @@ function PageSection({
 							</div>
 						)}
 						{hasImage && image && image.url && (
-							<div className="relative aspect-square overflow-hidden rounded-xl bg-[#f1f2f4]">
+							<div className="relative aspect-square overflow-hidden rounded-xl bg-[#f1f2f4] mx-auto max-w-md">
 								<Image
 									src={image?.url ?? ""}
 									alt={image?.alt ?? section.title ?? ""}

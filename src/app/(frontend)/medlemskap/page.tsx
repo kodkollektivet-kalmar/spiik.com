@@ -43,7 +43,7 @@ export default async function MembershipPage() {
 				title={heroTitle}
 				subtitle={heroSubtitle}
 				image={membership.heroImage}
-				badge={membership.heroBadge ?? "SPIIK"}
+				badge={membership.heroBadge}
 			/>
 
 			{sections.map((section, index) => (

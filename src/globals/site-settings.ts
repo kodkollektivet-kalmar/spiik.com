@@ -1,4 +1,5 @@
 import type { GlobalConfig } from "payload";
+import { revalidatePages } from "@/lib/revalidate-pages";
 import { MEDIA } from "../collections/constants";
 import { SITE_SETTINGS } from "./constants";
 
@@ -42,4 +43,12 @@ export const SiteSettings: GlobalConfig = {
 			],
 		},
 	],
+	hooks: {
+		afterChange: [
+			async () => {
+				console.log("Site settings updated");
+				await revalidatePages({ global: SITE_SETTINGS });
+			},
+		],
+	},
 };

@@ -28,12 +28,12 @@ function SponsorCard({ sponsor, children, className = "" }: SponsorCardProps) {
 	const content = (
 		<div
 			className={cn(
-				"flex items-center gap-4 p-4 rounded-2xl bg-white/50 backdrop-blur-sm border border-white/20 hover:bg-white/70 transition-all",
+				"flex flex-col items-center text-center gap-4 p-6 rounded-2xl bg-white/50 backdrop-blur-sm border border-white/20 hover:bg-white/70 transition-all",
 				className,
 			)}
 		>
 			{logo?.url && (
-				<div className="flex-shrink-0 w-20 h-20 relative">
+				<div className="w-24 h-24 relative">
 					<Image
 						src={logo.url}
 						alt={logo.alt || sponsor.name || "Sponsor logo"}
@@ -43,8 +43,8 @@ function SponsorCard({ sponsor, children, className = "" }: SponsorCardProps) {
 				</div>
 			)}
 
-			<div className="flex-1 min-w-0">
-				<h3 className="text-lg font-semibold text-foreground mb-2">
+			<div className="space-y-2">
+				<h3 className="text-lg font-semibold text-foreground">
 					{sponsor.name || "Sponsor"}
 				</h3>
 				{sponsor.description && (
@@ -56,7 +56,7 @@ function SponsorCard({ sponsor, children, className = "" }: SponsorCardProps) {
 			</div>
 
 			{hasWebsite && (
-				<div className="flex-shrink-0">
+				<div className="mt-2">
 					<span className="text-xs text-[#c1121f] font-medium">→</span>
 				</div>
 			)}

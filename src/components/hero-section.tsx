@@ -7,8 +7,8 @@ type HeroSectionProps = {
 	title: string;
 	subtitle?: string | null;
 	image?: (number | null) | Media;
-	badge?: string;
-	className?: string;
+	badge?: string | null;
+	className?: string | null;
 	children?: ReactNode;
 };
 
@@ -16,8 +16,8 @@ function HeroSection({
 	title,
 	subtitle,
 	image,
-	badge = "SPIIK",
-	className = "",
+	badge,
+	className,
 	children,
 }: HeroSectionProps) {
 	const heroImage = typeof image === "object" && image !== null ? image : null;

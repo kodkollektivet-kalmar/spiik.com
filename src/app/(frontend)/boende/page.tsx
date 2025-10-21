@@ -30,7 +30,7 @@ export default async function HousingPage() {
 				title={heroTitle}
 				subtitle={heroSubtitle}
 				image={housing.heroImage}
-				badge={housing.heroBadge ?? "SPIIK"}
+				badge={housing.heroBadge}
 			/>
 
 			{sections.map((section, index) => (
