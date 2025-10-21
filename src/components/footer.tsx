@@ -201,7 +201,7 @@ async function Footer() {
 					<div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
 						<span>En del av Linnékåren.</span>
 						<Link
-							href="https://www.linkedin.com/in/vonzweigbergksamuel/"
+							href="https://github.com/vonzweigbergksamuel"
 							target="_blank"
 							rel="noopener noreferrer"
 							className="text-white/20 transition hover:text-white/40"
