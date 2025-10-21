@@ -198,7 +198,18 @@ async function Footer() {
 					<span>
 						© {year} {siteName}. Alla rättigheter förbehållna.
 					</span>
-					<span>En del av Linnékåren.</span>
+					<div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
+						<span>En del av Linnékåren.</span>
+						<Link
+							href="https://www.linkedin.com/in/vonzweigbergksamuel/"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="text-white/20 transition hover:text-white/40"
+						>
+							{/** biome-ignore lint/suspicious/noCommentText: Not a comment */}
+							// made by svz
+						</Link>
+					</div>
 				</div>
 			</div>
 			<div
