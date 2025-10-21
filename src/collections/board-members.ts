@@ -1,18 +1,31 @@
 import type { CollectionConfig } from "payload";
 import { revalidatePages } from "@/lib/revalidate-pages";
-import { BOARD_MEMBERS, MEDIA } from "./constants";
+import { BOARD_MEMBERS, MEDIA, PROGRAMS } from "./constants";
 
 const positions = [
 	"Ordförande",
 	"Vice ordförande",
+	"Sexmästare",
+	"SSUA",
 	"Kassör",
+	"Vice kassör",
 	"Sekreterare",
-	"Eventansvarig",
-	"PR-ansvarig",
-	"Näringslivsansvarig",
-	"Studierådsansvarig",
-	"Webbansvarig",
-	"Ledamot",
+	"Informationsansvarig",
+	"Kårhusansvarig",
+	"The Big Boss",
+] as const;
+
+const emails = [
+	"ordf@spiik.com",
+	"viceordf@spiik.com",
+	"sexmaster@spiik.com",
+	"vordfuu@spiik.com",
+	"kassor@spiik.com",
+	"vkassor@spiik.com",
+	"sekreterare@spiik.com",
+	"socialamedier@spiik.com",
+	"karhus@spiik.com",
+	"styrelsen@spiik.com",
 ] as const;
 
 export const BoardMembers: CollectionConfig = {
@@ -34,7 +47,8 @@ export const BoardMembers: CollectionConfig = {
 		},
 		{
 			name: "email",
-			type: "email",
+			type: "select",
+			options: emails.map((email) => ({ label: email, value: email })),
 		},
 		{
 			name: "position",
@@ -44,7 +58,8 @@ export const BoardMembers: CollectionConfig = {
 		},
 		{
 			name: "studies",
-			type: "text",
+			type: "relationship",
+			relationTo: PROGRAMS,
 			label: "Studerar",
 		},
 		{

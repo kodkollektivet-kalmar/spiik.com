@@ -27,6 +27,7 @@ export default async function StyrelsenPage() {
 		limit: 100,
 		pagination: false,
 		sort: "order",
+		depth: 2,
 	});
 	const members = (membersResult as unknown as { docs: BoardMemberType[] })
 		.docs;
@@ -110,7 +111,11 @@ export default async function StyrelsenPage() {
 										)}
 
 										<div className="grid grid-cols-1 gap-1 text-sm text-foreground/60">
-											{member.studies && <p>Studerar: {member.studies}</p>}
+											{member.studies &&
+												typeof member.studies === "object" &&
+												member.studies !== null && (
+													<p>Studerar: {member.studies.code}</p>
+												)}
 											{member.merit && <p>Merit: {member.merit}</p>}
 											{member.favoriteGame && (
 												<p>Favoritspel: {member.favoriteGame}</p>

@@ -188,19 +188,32 @@ export interface Media {
 export interface BoardMember {
   id: number;
   name: string;
-  email?: string | null;
+  email?:
+    | (
+        | 'ordf@spiik.com'
+        | 'viceordf@spiik.com'
+        | 'sexmaster@spiik.com'
+        | 'vordfuu@spiik.com'
+        | 'kassor@spiik.com'
+        | 'vkassor@spiik.com'
+        | 'sekreterare@spiik.com'
+        | 'socialamedier@spiik.com'
+        | 'karhus@spiik.com'
+        | 'styrelsen@spiik.com'
+      )
+    | null;
   position:
     | 'Ordförande'
     | 'Vice ordförande'
+    | 'Sexmästare'
+    | 'SSUA'
     | 'Kassör'
+    | 'Vice kassör'
     | 'Sekreterare'
-    | 'Eventansvarig'
-    | 'PR-ansvarig'
-    | 'Näringslivsansvarig'
-    | 'Studierådsansvarig'
-    | 'Webbansvarig'
-    | 'Ledamot';
-  studies?: string | null;
+    | 'Informationsansvarig'
+    | 'Kårhusansvarig'
+    | 'The Big Boss';
+  studies?: (number | null) | Program;
   message?: string | null;
   quote?: string | null;
   merit?: string | null;
@@ -213,6 +226,24 @@ export interface BoardMember {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "programs".
+ */
+export interface Program {
+  id: number;
+  code: string;
+  name: string;
+  degree?: ('Kandidatexamen' | 'Master' | 'Högskoleexamen') | null;
+  description?: string | null;
+  url: string;
+  color?:
+    | ('#FDE300' | '#FF6A00' | '#E43222' | '#e7f0ff' | '#ffe8e5' | '#ecfff3' | '#fff6cc' | '#ffffff' | '#f3f4f6')
+    | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -239,24 +270,6 @@ export interface Statute {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "programs".
- */
-export interface Program {
-  id: number;
-  code: string;
-  name: string;
-  degree?: ('Kandidatexamen' | 'Master' | 'Högskoleexamen') | null;
-  description?: string | null;
-  url: string;
-  color?:
-    | ('#FDE300' | '#FF6A00' | '#E43222' | '#e7f0ff' | '#ffe8e5' | '#ecfff3' | '#fff6cc' | '#ffffff' | '#f3f4f6')
-    | null;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
