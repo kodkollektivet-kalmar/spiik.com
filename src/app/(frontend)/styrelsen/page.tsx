@@ -94,7 +94,7 @@ export default async function StyrelsenPage() {
 											/>
 										)}
 									</div>
-									<div className="flex flex-col gap-2">
+									<div className="flex flex-1 flex-col gap-2">
 										<div>
 											<h3 className="text-lg font-semibold text-foreground">
 												{member.name}
@@ -131,7 +131,7 @@ export default async function StyrelsenPage() {
 										{member.email && (
 											<a
 												href={`mailto:${member.email}`}
-												className="mt-3 inline-flex items-center justify-center rounded-full bg-[#c1121f] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#a20e1b]"
+												className="mt-auto inline-flex items-center justify-center rounded-full bg-[#c1121f] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#a20e1b]"
 											>
 												Kontakta
 											</a>
