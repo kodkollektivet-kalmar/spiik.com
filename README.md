@@ -1,67 +1,83 @@
-# Payload Blank Template
+# SPIIK Website
 
-This template comes configured with the bare minimum to get started on anything you need.
+The official website for the student organization SPIIK, built with [Next.js](https://nextjs.org), [Payload CMS](https://payloadcms.com), and [TypeScript](https://www.typescriptlang.org).
 
-## Quick start
+## About
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+This is the main website for SPIIK, featuring information about the organization, membership tiers, board members, programs, and housing information.
 
-## Quick Start - local setup
+## Hosting & Accounts
 
-To spin up this template locally, follow these steps:
+- **GitHub**: Hosted on the [kodkollektivet GitHub account](https://github.com/kodkollektivet)
+- **Vercel**: Deployed on [Vercel](https://vercel.com), automatically synced with the GitHub repository
 
-### Clone
+Any push to the main branch automatically triggers a deployment on Vercel.
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+## Tech Stack
 
-### Development
+- **Framework**: Next.js with App Router
+- **CMS**: Payload CMS
+- **Database**: PostgreSQL (local) or Neon (on Vercel)
+- **Styling**: Tailwind CSS
+- **Linting**: Biome
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URI` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+## Development
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+### Prerequisites
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+- Node.js 18+ 
+- pnpm
+- PostgreSQL
 
-#### Docker (Optional)
+### Quick Start
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+1. Clone the repository and install dependencies:
+   ```bash
+   pnpm install
+   ```
 
-To do so, follow these steps:
+2. Set up environment variables:
+   ```bash
+   cp .env.example .env
+   ```
+   Add your PostgreSQL connection string to the `.env` file.
 
-- Modify the `MONGODB_URI` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URI` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+3. Start the development server:
+   ```bash
+   pnpm dev
+   ```
 
-## How it works
+4. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+5. Access the admin panel at [http://localhost:3000/admin](http://localhost:3000/admin)
 
-### Collections
+## Project Structure
 
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+```
+src/
+  app/              # Next.js routes and pages
+  collections/      # Payload CMS collections
+  components/       # React components
+  globals/          # Payload CMS globals
+  hooks/            # Custom React hooks
+  lib/              # Utility functions
+  types/            # TypeScript type definitions
+```
 
-- #### Users (Authentication)
+## Available Scripts
 
-  Users are auth-enabled collections that have access to the admin panel.
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm start` - Start production server
+- `pnpm lint` - Run Biome linter
+- `pnpm ci` - For running migrations and building (used as build cmd on Vercel)
 
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+### Other usefull commands
 
-- #### Media
+- `pnpm payload migrate:create` - Creates database migration files. Used when updating collections or globals
 
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+## Resources
 
-### Docker
-
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
-
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
-
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
-
-## Questions
-
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Payload CMS Documentation](https://payloadcms.com/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
