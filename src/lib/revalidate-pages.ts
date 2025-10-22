@@ -38,6 +38,10 @@ export async function revalidatePages({
 					revalidatePath("/stadgar");
 					revalidatedPaths.push("/stadgar");
 					break;
+				case "kodkollektivet-page":
+					revalidatePath("/kodkollektivet");
+					revalidatedPaths.push("/kodkollektivet");
+					break;
 				case "site-settings":
 					// Site settings affect all pages
 					revalidatePath("/", "layout");

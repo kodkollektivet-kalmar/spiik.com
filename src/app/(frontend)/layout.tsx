@@ -11,7 +11,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 	const { children } = props;
 
 	return (
-		<html lang="en">
+		<html lang="sv">
 			<body>
 				<main className="relative">{children}</main>
 				<Footer />

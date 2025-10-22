@@ -70,7 +70,6 @@ export interface Config {
     users: User;
     media: Media;
     'board-members': BoardMember;
-    statutes: Statute;
     programs: Program;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -81,7 +80,6 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     'board-members': BoardMembersSelect<false> | BoardMembersSelect<true>;
-    statutes: StatutesSelect<false> | StatutesSelect<true>;
     programs: ProgramsSelect<false> | ProgramsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -99,6 +97,7 @@ export interface Config {
     'membership-page': MembershipPage;
     'sponsors-page': SponsorsPage;
     'statutes-page': StatutesPage;
+    'kodkollektivet-page': KodkollektivetPage;
   };
   globalsSelect: {
     navigation: NavigationSelect<false> | NavigationSelect<true>;
@@ -109,6 +108,7 @@ export interface Config {
     'membership-page': MembershipPageSelect<false> | MembershipPageSelect<true>;
     'sponsors-page': SponsorsPageSelect<false> | SponsorsPageSelect<true>;
     'statutes-page': StatutesPageSelect<false> | StatutesPageSelect<true>;
+    'kodkollektivet-page': KodkollektivetPageSelect<false> | KodkollektivetPageSelect<true>;
   };
   locale: null;
   user: User & {
@@ -168,7 +168,6 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
-  _key?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -247,32 +246,6 @@ export interface Program {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "statutes".
- */
-export interface Statute {
-  id: number;
-  title: string;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -289,10 +262,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'board-members';
         value: number | BoardMember;
-      } | null)
-    | ({
-        relationTo: 'statutes';
-        value: number | Statute;
       } | null)
     | ({
         relationTo: 'programs';
@@ -368,7 +337,6 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
-  _key?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -396,17 +364,6 @@ export interface BoardMembersSelect<T extends boolean = true> {
   favoriteGame?: T;
   image?: T;
   order?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  _status?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "statutes_select".
- */
-export interface StatutesSelect<T extends boolean = true> {
-  title?: T;
-  content?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -489,9 +446,21 @@ export interface Navigation {
  */
 export interface SiteSetting {
   id: number;
+  /**
+   * Organization name used in footer copyright notice. Example: © 2024 SPIIK. Alla rättigheter förbehållna.
+   */
   siteName: string;
+  /**
+   * Logo displayed in the footer (top left). Falls back to default SPIIK logo if not set.
+   */
   logo?: (number | null) | Media;
+  /**
+   * Email address displayed as a clickable link in the footer. Users can click to send an email.
+   */
   contactEmail?: string | null;
+  /**
+   * Social media links displayed in the footer. These links are used to direct users to your social media profiles.
+   */
   socialLinks?:
     | {
         platform: 'instagram' | 'facebook' | 'tiktok' | 'linkedin' | 'youtube' | 'spotify' | 'discord' | 'web';
@@ -523,7 +492,7 @@ export interface BoardPage {
           root: {
             type: string;
             children: {
-              type: string;
+              type: any;
               version: number;
               [k: string]: unknown;
             }[];
@@ -562,7 +531,7 @@ export interface IntroductionPage {
           root: {
             type: string;
             children: {
-              type: string;
+              type: any;
               version: number;
               [k: string]: unknown;
             }[];
@@ -641,7 +610,7 @@ export interface HousingPage {
           root: {
             type: string;
             children: {
-              type: string;
+              type: any;
               version: number;
               [k: string]: unknown;
             }[];
@@ -680,7 +649,7 @@ export interface MembershipPage {
           root: {
             type: string;
             children: {
-              type: string;
+              type: any;
               version: number;
               [k: string]: unknown;
             }[];
@@ -739,10 +708,6 @@ export interface MembershipPage {
  */
 export interface SponsorsPage {
   id: number;
-  heroTitle?: string | null;
-  heroSubtitle?: string | null;
-  heroImage?: (number | null) | Media;
-  heroBadge?: string | null;
   /**
    * List of sponsors with logos and descriptions
    */
@@ -778,10 +743,6 @@ export interface SponsorsPage {
  */
 export interface StatutesPage {
   id: number;
-  heroTitle?: string | null;
-  heroSubtitle?: string | null;
-  heroImage?: (number | null) | Media;
-  heroBadge?: string | null;
   /**
    * Main content for this page
    */
@@ -789,7 +750,7 @@ export interface StatutesPage {
     root: {
       type: string;
       children: {
-        type: string;
+        type: any;
         version: number;
         [k: string]: unknown;
       }[];
@@ -800,6 +761,45 @@ export interface StatutesPage {
     };
     [k: string]: unknown;
   } | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Kodkollektivet page content
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kodkollektivet-page".
+ */
+export interface KodkollektivetPage {
+  id: number;
+  heroTitle?: string | null;
+  heroSubtitle?: string | null;
+  heroImage?: (number | null) | Media;
+  heroBadge?: string | null;
+  sections?:
+    | {
+        title?: string | null;
+        text?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        image?: (number | null) | Media;
+        ctaLabel?: string | null;
+        ctaUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -988,10 +988,6 @@ export interface MembershipPageSelect<T extends boolean = true> {
  * via the `definition` "sponsors-page_select".
  */
 export interface SponsorsPageSelect<T extends boolean = true> {
-  heroTitle?: T;
-  heroSubtitle?: T;
-  heroImage?: T;
-  heroBadge?: T;
   sponsors?:
     | T
     | {
@@ -1010,11 +1006,30 @@ export interface SponsorsPageSelect<T extends boolean = true> {
  * via the `definition` "statutes-page_select".
  */
 export interface StatutesPageSelect<T extends boolean = true> {
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "kodkollektivet-page_select".
+ */
+export interface KodkollektivetPageSelect<T extends boolean = true> {
   heroTitle?: T;
   heroSubtitle?: T;
   heroImage?: T;
   heroBadge?: T;
-  content?: T;
+  sections?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        ctaLabel?: T;
+        ctaUrl?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

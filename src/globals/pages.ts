@@ -4,6 +4,7 @@ import {
 	BOARD_PAGE,
 	HOUSING_PAGE,
 	INTRODUCTION_PAGE,
+	KODKOLLEKTIVET_PAGE,
 	MEMBERSHIP_PAGE,
 	SPONSORS_PAGE,
 	STATUTES_PAGE,
@@ -81,7 +82,6 @@ function richTextPage(slug: string, label: string): GlobalConfig {
 		slug,
 		admin: { group: "Content", description: `${label} page content` },
 		fields: [
-			...heroFields,
 			{
 				name: "content",
 				type: "richText",
@@ -106,7 +106,7 @@ function sponsorsPage(slug: string, label: string): GlobalConfig {
 	return {
 		slug,
 		admin: { group: "Content", description: `${label} page content` },
-		fields: [...heroFields, sponsorsField],
+		fields: [sponsorsField],
 		hooks: {
 			afterChange: [
 				async () => {
@@ -124,6 +124,7 @@ const HousingPage = pageGlobal(HOUSING_PAGE, "Boende");
 const MembershipPage = membershipPage(MEMBERSHIP_PAGE, "Medlemskap");
 const SponsorsPage = sponsorsPage(SPONSORS_PAGE, "Sponsorer");
 const StatutesPage = richTextPage(STATUTES_PAGE, "Stadgar");
+const KodkollektivetPage = pageGlobal(KODKOLLEKTIVET_PAGE, "Kodkollektivet");
 
 const pageGlobals = [
 	BoardPage,
@@ -132,6 +133,7 @@ const pageGlobals = [
 	MembershipPage,
 	SponsorsPage,
 	StatutesPage,
+	KodkollektivetPage,
 ];
 
 export { pageGlobals };

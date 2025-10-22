@@ -20,6 +20,23 @@ export default async function StatutesPage() {
 
 	return (
 		<div className="relative overflow-hidden bg-white text-foreground">
+			<section className="py-20">
+				<div className="mx-auto max-w-screen-xl px-5 sm:px-10">
+					<div className="mx-auto max-w-3xl text-center">
+						<p className="text-xs uppercase tracking-[0.32em] text-[#E43222]/70">
+							Stadgar
+						</p>
+						<h1 className="mt-3 text-3xl font-bold text-foreground text-balance sm:text-4xl">
+							SPIIKs stadgar
+						</h1>
+						<p className="mt-4 text-sm text-foreground/70">
+							Här hittar du alla officiella dokument som styr vår
+							studentförening.
+						</p>
+					</div>
+				</div>
+			</section>
+
 			{statutes.content && (
 				<section className="py-20">
 					<div className="mx-auto max-w-screen-xl px-5 sm:px-10">
