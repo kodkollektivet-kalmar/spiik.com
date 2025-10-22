@@ -2,12 +2,12 @@ import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-   CREATE TYPE "public"."enum_board_members_position" AS ENUM('Ordförande', 'Vice ordförande', 'Kassör', 'Sekreterare', 'Eventansvarig', 'PR-ansvarig', 'Näringslivsansvarig', 'Studierådsansvarig', 'Webbansvarig', 'Ledamot');
+   CREATE TYPE "public"."enum_board_members_email" AS ENUM('ordf@spiik.com', 'viceordf@spiik.com', 'sexmaster@spiik.com', 'vordfuu@spiik.com', 'kassor@spiik.com', 'vkassor@spiik.com', 'sekreterare@spiik.com', 'socialamedier@spiik.com', 'karhus@spiik.com', 'styrelsen@spiik.com');
+  CREATE TYPE "public"."enum_board_members_position" AS ENUM('Ordförande', 'Vice ordförande', 'Sexmästare', 'SSUA', 'Kassör', 'Vice kassör', 'Sekreterare', 'Informationsansvarig', 'Kårhusansvarig', 'The Big Boss');
   CREATE TYPE "public"."enum_board_members_status" AS ENUM('draft', 'published');
-  CREATE TYPE "public"."enum__board_members_v_version_position" AS ENUM('Ordförande', 'Vice ordförande', 'Kassör', 'Sekreterare', 'Eventansvarig', 'PR-ansvarig', 'Näringslivsansvarig', 'Studierådsansvarig', 'Webbansvarig', 'Ledamot');
+  CREATE TYPE "public"."enum__board_members_v_version_email" AS ENUM('ordf@spiik.com', 'viceordf@spiik.com', 'sexmaster@spiik.com', 'vordfuu@spiik.com', 'kassor@spiik.com', 'vkassor@spiik.com', 'sekreterare@spiik.com', 'socialamedier@spiik.com', 'karhus@spiik.com', 'styrelsen@spiik.com');
+  CREATE TYPE "public"."enum__board_members_v_version_position" AS ENUM('Ordförande', 'Vice ordförande', 'Sexmästare', 'SSUA', 'Kassör', 'Vice kassör', 'Sekreterare', 'Informationsansvarig', 'Kårhusansvarig', 'The Big Boss');
   CREATE TYPE "public"."enum__board_members_v_version_status" AS ENUM('draft', 'published');
-  CREATE TYPE "public"."enum_statutes_status" AS ENUM('draft', 'published');
-  CREATE TYPE "public"."enum__statutes_v_version_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum_programs_degree" AS ENUM('Kandidatexamen', 'Master', 'Högskoleexamen');
   CREATE TYPE "public"."enum_programs_color" AS ENUM('#FDE300', '#FF6A00', '#E43222', '#e7f0ff', '#ffe8e5', '#ecfff3', '#fff6cc', '#ffffff', '#f3f4f6');
   CREATE TYPE "public"."enum_site_settings_social_links_platform" AS ENUM('instagram', 'facebook', 'tiktok', 'linkedin', 'youtube', 'spotify', 'discord', 'web');
@@ -55,9 +55,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TABLE "board_members" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"name" varchar,
-  	"email" varchar,
+  	"email" "enum_board_members_email",
   	"position" "enum_board_members_position",
-  	"studies" varchar,
+  	"studies_id" integer,
   	"message" varchar,
   	"quote" varchar,
   	"merit" varchar,
@@ -73,9 +73,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
   	"version_name" varchar,
-  	"version_email" varchar,
+  	"version_email" "enum__board_members_v_version_email",
   	"version_position" "enum__board_members_v_version_position",
-  	"version_studies" varchar,
+  	"version_studies_id" integer,
   	"version_message" varchar,
   	"version_quote" varchar,
   	"version_merit" varchar,
@@ -85,28 +85,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"version_updated_at" timestamp(3) with time zone,
   	"version_created_at" timestamp(3) with time zone,
   	"version__status" "enum__board_members_v_version_status" DEFAULT 'draft',
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"latest" boolean
-  );
-  
-  CREATE TABLE "statutes" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"title" varchar,
-  	"content" jsonb,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"_status" "enum_statutes_status" DEFAULT 'draft'
-  );
-  
-  CREATE TABLE "_statutes_v" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"parent_id" integer,
-  	"version_title" varchar,
-  	"version_content" jsonb,
-  	"version_updated_at" timestamp(3) with time zone,
-  	"version_created_at" timestamp(3) with time zone,
-  	"version__status" "enum__statutes_v_version_status" DEFAULT 'draft',
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"latest" boolean
@@ -140,7 +118,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"users_id" integer,
   	"media_id" integer,
   	"board_members_id" integer,
-  	"statutes_id" integer,
   	"programs_id" integer
   );
   
@@ -354,35 +331,48 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   
   CREATE TABLE "sponsors_page" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"hero_title" varchar,
-  	"hero_subtitle" varchar,
-  	"hero_image_id" integer,
-  	"hero_badge" varchar,
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
   
   CREATE TABLE "statutes_page" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"hero_title" varchar,
-  	"hero_subtitle" varchar,
-  	"hero_image_id" integer,
-  	"hero_badge" varchar,
   	"content" jsonb,
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
   
+  CREATE TABLE "kodkollektivet_page_sections" (
+  	"_order" integer NOT NULL,
+  	"_parent_id" integer NOT NULL,
+  	"id" varchar PRIMARY KEY NOT NULL,
+  	"title" varchar,
+  	"text" jsonb,
+  	"image_id" integer,
+  	"cta_label" varchar,
+  	"cta_url" varchar
+  );
+  
+  CREATE TABLE "kodkollektivet_page" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"hero_title" varchar,
+  	"hero_subtitle" varchar,
+  	"hero_image_id" integer,
+  	"hero_badge" varchar,
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+  
   ALTER TABLE "users_sessions" ADD CONSTRAINT "users_sessions_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "board_members" ADD CONSTRAINT "board_members_studies_id_programs_id_fk" FOREIGN KEY ("studies_id") REFERENCES "public"."programs"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "board_members" ADD CONSTRAINT "board_members_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "_board_members_v" ADD CONSTRAINT "_board_members_v_parent_id_board_members_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."board_members"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "_board_members_v" ADD CONSTRAINT "_board_members_v_version_studies_id_programs_id_fk" FOREIGN KEY ("version_studies_id") REFERENCES "public"."programs"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "_board_members_v" ADD CONSTRAINT "_board_members_v_version_image_id_media_id_fk" FOREIGN KEY ("version_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "_statutes_v" ADD CONSTRAINT "_statutes_v_parent_id_statutes_id_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."statutes"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."payload_locked_documents"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_media_fk" FOREIGN KEY ("media_id") REFERENCES "public"."media"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_board_members_fk" FOREIGN KEY ("board_members_id") REFERENCES "public"."board_members"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_statutes_fk" FOREIGN KEY ("statutes_id") REFERENCES "public"."statutes"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_programs_fk" FOREIGN KEY ("programs_id") REFERENCES "public"."programs"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_preferences_rels" ADD CONSTRAINT "payload_preferences_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."payload_preferences"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "payload_preferences_rels" ADD CONSTRAINT "payload_preferences_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
@@ -410,8 +400,9 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   ALTER TABLE "membership_page" ADD CONSTRAINT "membership_page_hero_image_id_media_id_fk" FOREIGN KEY ("hero_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "sponsors_page_sponsors" ADD CONSTRAINT "sponsors_page_sponsors_logo_id_media_id_fk" FOREIGN KEY ("logo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   ALTER TABLE "sponsors_page_sponsors" ADD CONSTRAINT "sponsors_page_sponsors_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."sponsors_page"("id") ON DELETE cascade ON UPDATE no action;
-  ALTER TABLE "sponsors_page" ADD CONSTRAINT "sponsors_page_hero_image_id_media_id_fk" FOREIGN KEY ("hero_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
-  ALTER TABLE "statutes_page" ADD CONSTRAINT "statutes_page_hero_image_id_media_id_fk" FOREIGN KEY ("hero_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "kodkollektivet_page_sections" ADD CONSTRAINT "kodkollektivet_page_sections_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  ALTER TABLE "kodkollektivet_page_sections" ADD CONSTRAINT "kodkollektivet_page_sections_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."kodkollektivet_page"("id") ON DELETE cascade ON UPDATE no action;
+  ALTER TABLE "kodkollektivet_page" ADD CONSTRAINT "kodkollektivet_page_hero_image_id_media_id_fk" FOREIGN KEY ("hero_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   CREATE INDEX "users_sessions_order_idx" ON "users_sessions" USING btree ("_order");
   CREATE INDEX "users_sessions_parent_id_idx" ON "users_sessions" USING btree ("_parent_id");
   CREATE INDEX "users_updated_at_idx" ON "users" USING btree ("updated_at");
@@ -420,11 +411,13 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "media_updated_at_idx" ON "media" USING btree ("updated_at");
   CREATE INDEX "media_created_at_idx" ON "media" USING btree ("created_at");
   CREATE UNIQUE INDEX "media_filename_idx" ON "media" USING btree ("filename");
+  CREATE INDEX "board_members_studies_idx" ON "board_members" USING btree ("studies_id");
   CREATE INDEX "board_members_image_idx" ON "board_members" USING btree ("image_id");
   CREATE INDEX "board_members_updated_at_idx" ON "board_members" USING btree ("updated_at");
   CREATE INDEX "board_members_created_at_idx" ON "board_members" USING btree ("created_at");
   CREATE INDEX "board_members__status_idx" ON "board_members" USING btree ("_status");
   CREATE INDEX "_board_members_v_parent_idx" ON "_board_members_v" USING btree ("parent_id");
+  CREATE INDEX "_board_members_v_version_version_studies_idx" ON "_board_members_v" USING btree ("version_studies_id");
   CREATE INDEX "_board_members_v_version_version_image_idx" ON "_board_members_v" USING btree ("version_image_id");
   CREATE INDEX "_board_members_v_version_version_updated_at_idx" ON "_board_members_v" USING btree ("version_updated_at");
   CREATE INDEX "_board_members_v_version_version_created_at_idx" ON "_board_members_v" USING btree ("version_created_at");
@@ -432,16 +425,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "_board_members_v_created_at_idx" ON "_board_members_v" USING btree ("created_at");
   CREATE INDEX "_board_members_v_updated_at_idx" ON "_board_members_v" USING btree ("updated_at");
   CREATE INDEX "_board_members_v_latest_idx" ON "_board_members_v" USING btree ("latest");
-  CREATE INDEX "statutes_updated_at_idx" ON "statutes" USING btree ("updated_at");
-  CREATE INDEX "statutes_created_at_idx" ON "statutes" USING btree ("created_at");
-  CREATE INDEX "statutes__status_idx" ON "statutes" USING btree ("_status");
-  CREATE INDEX "_statutes_v_parent_idx" ON "_statutes_v" USING btree ("parent_id");
-  CREATE INDEX "_statutes_v_version_version_updated_at_idx" ON "_statutes_v" USING btree ("version_updated_at");
-  CREATE INDEX "_statutes_v_version_version_created_at_idx" ON "_statutes_v" USING btree ("version_created_at");
-  CREATE INDEX "_statutes_v_version_version__status_idx" ON "_statutes_v" USING btree ("version__status");
-  CREATE INDEX "_statutes_v_created_at_idx" ON "_statutes_v" USING btree ("created_at");
-  CREATE INDEX "_statutes_v_updated_at_idx" ON "_statutes_v" USING btree ("updated_at");
-  CREATE INDEX "_statutes_v_latest_idx" ON "_statutes_v" USING btree ("latest");
   CREATE INDEX "programs_updated_at_idx" ON "programs" USING btree ("updated_at");
   CREATE INDEX "programs_created_at_idx" ON "programs" USING btree ("created_at");
   CREATE INDEX "payload_locked_documents_global_slug_idx" ON "payload_locked_documents" USING btree ("global_slug");
@@ -453,7 +436,6 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "payload_locked_documents_rels_users_id_idx" ON "payload_locked_documents_rels" USING btree ("users_id");
   CREATE INDEX "payload_locked_documents_rels_media_id_idx" ON "payload_locked_documents_rels" USING btree ("media_id");
   CREATE INDEX "payload_locked_documents_rels_board_members_id_idx" ON "payload_locked_documents_rels" USING btree ("board_members_id");
-  CREATE INDEX "payload_locked_documents_rels_statutes_id_idx" ON "payload_locked_documents_rels" USING btree ("statutes_id");
   CREATE INDEX "payload_locked_documents_rels_programs_id_idx" ON "payload_locked_documents_rels" USING btree ("programs_id");
   CREATE INDEX "payload_preferences_key_idx" ON "payload_preferences" USING btree ("key");
   CREATE INDEX "payload_preferences_updated_at_idx" ON "payload_preferences" USING btree ("updated_at");
@@ -501,8 +483,10 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX "sponsors_page_sponsors_order_idx" ON "sponsors_page_sponsors" USING btree ("_order");
   CREATE INDEX "sponsors_page_sponsors_parent_id_idx" ON "sponsors_page_sponsors" USING btree ("_parent_id");
   CREATE INDEX "sponsors_page_sponsors_logo_idx" ON "sponsors_page_sponsors" USING btree ("logo_id");
-  CREATE INDEX "sponsors_page_hero_image_idx" ON "sponsors_page" USING btree ("hero_image_id");
-  CREATE INDEX "statutes_page_hero_image_idx" ON "statutes_page" USING btree ("hero_image_id");`)
+  CREATE INDEX "kodkollektivet_page_sections_order_idx" ON "kodkollektivet_page_sections" USING btree ("_order");
+  CREATE INDEX "kodkollektivet_page_sections_parent_id_idx" ON "kodkollektivet_page_sections" USING btree ("_parent_id");
+  CREATE INDEX "kodkollektivet_page_sections_image_idx" ON "kodkollektivet_page_sections" USING btree ("image_id");
+  CREATE INDEX "kodkollektivet_page_hero_image_idx" ON "kodkollektivet_page" USING btree ("hero_image_id");`)
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
@@ -512,8 +496,6 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "media" CASCADE;
   DROP TABLE "board_members" CASCADE;
   DROP TABLE "_board_members_v" CASCADE;
-  DROP TABLE "statutes" CASCADE;
-  DROP TABLE "_statutes_v" CASCADE;
   DROP TABLE "programs" CASCADE;
   DROP TABLE "payload_locked_documents" CASCADE;
   DROP TABLE "payload_locked_documents_rels" CASCADE;
@@ -541,12 +523,14 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   DROP TABLE "sponsors_page_sponsors" CASCADE;
   DROP TABLE "sponsors_page" CASCADE;
   DROP TABLE "statutes_page" CASCADE;
+  DROP TABLE "kodkollektivet_page_sections" CASCADE;
+  DROP TABLE "kodkollektivet_page" CASCADE;
+  DROP TYPE "public"."enum_board_members_email";
   DROP TYPE "public"."enum_board_members_position";
   DROP TYPE "public"."enum_board_members_status";
+  DROP TYPE "public"."enum__board_members_v_version_email";
   DROP TYPE "public"."enum__board_members_v_version_position";
   DROP TYPE "public"."enum__board_members_v_version_status";
-  DROP TYPE "public"."enum_statutes_status";
-  DROP TYPE "public"."enum__statutes_v_version_status";
   DROP TYPE "public"."enum_programs_degree";
   DROP TYPE "public"."enum_programs_color";
   DROP TYPE "public"."enum_site_settings_social_links_platform";
