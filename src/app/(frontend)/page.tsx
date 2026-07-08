@@ -92,9 +92,10 @@ export default async function HomePage() {
 							alt="SPIIK"
 							width={1000}
 							height={1000}
-							className="rounded-3xl object-cover h-[70vh]"
+							className="rounded-3xl object-cover w-full aspect-[1312/1749] lg:aspect-auto lg:h-[70vh]"
 							sizes="(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 70vw"
 							quality={75}
+							priority
 						/>
 						<p className="mt-3 text-center text-foreground/80">
 							SPIIK är en utbildningsförening under Linnéuniversitetets
