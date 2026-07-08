@@ -42,6 +42,7 @@ export function MobileNav(props: MobileNavProps) {
 				side="top"
 				aria-label="Navigering"
 				showClose={false}
+				overlayClassName="bg-transparent"
 				className="p-4 rounded-b-2xl"
 			>
 				<SheetHeader className="sr-only">
