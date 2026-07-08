@@ -88,7 +88,7 @@ export default async function HomePage() {
 							Vilka är vi?
 						</h2>
 						<Image
-							src="/kalle.png"
+							src="/styrelsen.jpg"
 							alt="SPIIK"
 							width={1000}
 							height={1000}
