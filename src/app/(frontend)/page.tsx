@@ -41,9 +41,9 @@ export default async function HomePage() {
 				<Image
 					src="/spiik-logo.png"
 					alt="SPIIK"
-					width={300}
-					height={300}
-					className="w-auto px-16"
+					width={1946}
+					height={2049}
+					className="h-auto w-auto px-16"
 					priority
 					quality={60}
 					sizes="(max-width: 640px) 200px, (max-width: 1024px) 260px, 300px"
@@ -71,7 +71,7 @@ export default async function HomePage() {
 
 			{/* Content sections - follow mock closely */}
 			<section>
-				<div className="mx-auto w-full max-w-screen-sm px-5 py-20 sm:max-w-screen-md">
+				<div className="mx-auto w-full max-w-screen-sm px-5 pt-20 sm:max-w-screen-md">
 					{/* Välkommen
 					<div className="mb-16">
 						<h2 className="text-3xl font-bold leading-snug text-white">
@@ -131,13 +131,15 @@ export default async function HomePage() {
 							<MoveDown className="-mt-1 h-10 w-10" />
 						</div>
 					</div>
+				</div>
 
-					{/* Utbildningar prompt */}
+				{/* Utbildningar prompt */}
+				<div className="mx-auto w-full max-w-screen-sm px-5 pb-20 sm:max-w-screen-md lg:max-w-6xl">
 					<div className="mb-6 flex flex-col items-center">
 						<h2 className="text-4xl mb-3 font-semibold text-spiik-yellow">
 							Utbildningar!
 						</h2>
-						<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+						<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 							{programs.map((p) => (
 								<div
 									key={p.id}
