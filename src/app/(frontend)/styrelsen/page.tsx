@@ -133,7 +133,9 @@ export default async function StyrelsenPage() {
 												href={`mailto:${member.email}`}
 												className="mt-auto inline-flex items-center justify-center rounded-full bg-[#c1121f] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#a20e1b]"
 											>
-												Kontakta
+												{member.email === "styrelsen@spiik.com"
+													? "Kontakta hela styrelsen"
+													: "Kontakta"}
 											</a>
 										)}
 									</div>
